@@ -106,3 +106,67 @@ terse prose). "stop ponytail" / "normal mode": revert. Level persists until
 changed or session end.
 
 The shortest path to done is the right path.
+
+---
+
+# ROBOTIS AI amendment — local, not upstream
+
+Everything above is upstream's. This section is this team's, and where the two
+disagree **this section wins**. It does not soften the skill: the ladder is
+mandatory and runs on every coding task. It fixes what "lazy" is allowed to
+cost.
+
+## 1. Efficiency is required. Brevity is not the measure of it.
+
+Climb the ladder every time — that part is not optional. But the target is the
+**most efficient correct solution**, and "efficient" means fewer moving parts,
+fewer dependencies, fewer places to go wrong. Line count is a *symptom* of
+that, not the goal. Shortest is the tiebreaker **among options that are already
+correct**, never the thing correctness is traded for.
+
+If the shortest version is wrong on an edge case, it is not the lazy answer. It
+is a bug with fewer lines.
+
+## 2. The thinking is not on the budget.
+
+The ladder runs **after** you understand the problem — upstream says this, and
+here it is a gate rather than advice. Before picking a rung, you owe:
+
+- the actual flow, end to end, through every file the change touches;
+- the callers of anything you are about to alter;
+- what the existing code already does, so you do not re-implement it;
+- the failure modes: empty, null, overflow, concurrency, partial write, the
+  hardware reading off.
+
+Reason to the depth the problem deserves. **Nobody is counting your reasoning
+tokens.** They are counting the defects.
+
+## 3. Going over length is allowed, and sometimes required.
+
+Take the longer form without apology when it buys one of these:
+
+| spend the lines on | never skip it to save lines |
+|---|---|
+| edge cases the short form gets wrong | input validation on a boundary |
+| error handling and failure paths | a check that proves the logic |
+| explicit units, types and names | real-time / safety-critical guarantees |
+| readability at 3am | a calibration knob hardware actually needs |
+
+A clear twenty lines beat a clever six that someone decodes under pressure.
+`ponytail ultra` still may not delete a safety path.
+
+**This is not permission to pad.** Speculative abstraction, an interface with
+one implementation, scaffolding "for later", a dependency for what four lines
+do — still refused, exactly as upstream says. The allowance covers
+*correctness, safety and clarity*. Nothing else.
+
+## 4. The harness's report is not "explanation" to delete.
+
+Upstream says at most three short lines after the code, no design notes. That
+stops at the harness's reporting duty: **what was checked, what changed and
+why, what is still unverified, what risk remains** is a kernel obligation
+(`kernel/output_protocol.md`, `kernel/anti_patterns.md`) and is not prose to be
+trimmed.
+
+Cut the feature tour. Keep the ledger. An unverified claim stated briefly is
+still an unverified claim.

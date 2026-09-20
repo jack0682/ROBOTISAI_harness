@@ -294,6 +294,34 @@ fails and all twelve real slugs pass.
 The three numeric badges (72 skills, 7 hooks, 156 tests) were re-counted
 against the tree rather than carried forward.
 
+### Follow-up: ponytail amended — efficient, not merely short
+
+Raised by the user, and correct: optimising for line count alone ships code
+that is wrong on boundaries. `ponytail/SKILL.md` now carries a trailing
+**"ROBOTIS AI amendment — local, not upstream"** section below a `---`, so
+everything above it stays diffable against upstream. Four clauses:
+
+1. **Efficiency required, brevity is not the measure.** Shortest is the
+   tiebreaker *among already-correct options*, never traded against
+   correctness. A short answer wrong on an edge case is a bug with fewer lines.
+2. **The thinking is not on the budget.** The ladder runs after the flow, the
+   callers, the existing code and the failure modes are understood — a gate,
+   not advice. "Nobody is counting your reasoning tokens. They are counting the
+   defects."
+3. **Going over length is allowed** where it buys edge-case correctness, error
+   handling, explicit units/types, readability, a safety path, or a hardware
+   calibration knob. Explicitly *not* permission to pad — speculative
+   abstraction and needless dependencies stay refused.
+4. **The harness's report is not "explanation" to delete.** This resolved a
+   real conflict: upstream says to cut an explanation longer than the code,
+   which would eat the kernel's duty to state what was checked and what is
+   still unverified (`kernel/output_protocol.md`). Cut the feature tour, keep
+   the ledger.
+
+Bound in `scopes/coding/AGENTS.md` so it applies whether or not the skill is
+loaded, recorded in `UPSTREAM.md`, and surfaced in both READMEs. Frontmatter
+untouched, so the always-on budget is unchanged at 27,635 B.
+
 ### Open, not blocking
 
 - `bootstrap.sh` has been exercised against a scratch workspace but not against

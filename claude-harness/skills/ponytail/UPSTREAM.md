@@ -6,8 +6,23 @@ Copyright (c) 2026 DietrichGebert · vendored 2026-09-20 at upstream
 
 The full MIT notice is in `LICENSE` beside this file, as the licence requires.
 
-**The bodies are upstream's text, unmodified.** Do not edit them to fit local
-taste — raise it upstream, or wrap it here.
+**The bodies are upstream's text**, with exactly one addition: `ponytail`
+carries a trailing section headed *"ROBOTIS AI amendment — local, not
+upstream"*, below a `---` rule. Everything above that rule is untouched, so a
+diff against a future upstream version stays readable. The other three bodies
+are unmodified.
+
+The amendment does not soften the skill — the ladder stays mandatory. It fixes
+what "lazy" may cost: brevity is a tiebreaker among *correct* options and never
+a trade against correctness; the reasoning that precedes the ladder is not on
+the budget; and going over length is allowed where it buys edge-case
+correctness, error handling, safety, or readability. It also resolves a real
+conflict: upstream says to delete an explanation longer than the code, which
+would eat the harness's reporting duty (`kernel/output_protocol.md`), so the
+amendment carves that out.
+
+Do not edit upstream's text to fit local taste — raise it upstream, or extend
+the amendment.
 
 **The `description:` frontmatter was rewritten**, and that is the one
 deliberate divergence. Every skill description is injected into *every*

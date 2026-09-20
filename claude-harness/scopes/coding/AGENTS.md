@@ -11,6 +11,12 @@ prove it works — not assert it.
   Python, JavaScript/TypeScript, HTML/CSS, or any ROS 2 package file. Load
   `skills/robotis-style/SKILL.md` and its language reference *before* writing —
   not after, as a cleanup pass. Third-party code keeps its own style.
+- **Efficient, not merely short.** `skills/ponytail/` is in force on coding
+  work — climb its ladder every time. But read its *ROBOTIS AI amendment*
+  first: brevity is the tiebreaker among already-correct options, the reasoning
+  that precedes it is not on the budget, and going over length is allowed where
+  it buys edge-case correctness, error handling, safety or readability. A short
+  answer that is wrong on a boundary is a bug with fewer lines.
 - Read the target before editing it; never edit blind.
 - Smallest correct change; reuse before adding; match the surrounding code.
 - After any edit, run the repo's tests/linters/formatters; if none exist, say so

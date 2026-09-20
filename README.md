@@ -220,6 +220,15 @@ Vendored from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponyta
 > It complements the harness rather than repeating it: **the harness decides
 > whether a claim is earned, ponytail decides whether the code should exist.**
 
+**Amended for this team.** Shortest is not the same as best, so `ponytail`
+carries a local amendment: the ladder stays mandatory, but brevity is the
+tiebreaker **among options that are already correct** — never a trade against
+correctness. The reasoning that precedes it is not on the budget, and going
+over length is *allowed* where it buys edge-case correctness, error handling,
+safety or readability. A short answer that is wrong on a boundary is a bug with
+fewer lines. It is not permission to pad: speculative abstractions and
+unnecessary dependencies are still refused.
+
 ### 🔧 Coding — mandatory
 
 | Skill | What it does |
