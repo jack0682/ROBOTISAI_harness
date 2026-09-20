@@ -1,0 +1,47 @@
+# Local agent/tool state — never commit.
+.omc/
+claude-harness/sessions/.audit.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+*.db.loop_heartbeat
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Node
+node_modules/
+
+# Environment / secrets
+.env
+.env.*
+
+# Logs & temp
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS junk
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor / IDE
+.idea/
+.vscode/
+.loop_heartbeat
+
+# Written by bootstrap.sh in a workspace copy; never part of the template.
+claude-harness/.bootstrap-pending

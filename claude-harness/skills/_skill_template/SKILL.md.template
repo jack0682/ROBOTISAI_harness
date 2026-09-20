@@ -1,0 +1,28 @@
+---
+name: _skill_template
+description: TEMPLATE — replace with a one-line trigger description. State what the skill does and the intent/phrases that should activate it.
+---
+
+# Skill: <name>
+
+> Template. Copy this directory to `skills/<your-skill>/` (or use
+> `scripts/new_skill.py`) and fill in. Keep it project-agnostic where possible — a
+> skill is a reusable capability, not one project's context.
+
+## What this skill is
+<The capability this module adds.>
+
+## When to use it
+<Triggers: kinds of tasks, intents, or phrases. This mirrors the frontmatter
+`description` and decides activation.>
+
+## How to apply it
+<The core method/procedure. Reference `checklist.md` for the step list.>
+
+## Boundaries
+<What this skill does NOT cover. What it must not override (kernel rules stand).>
+
+## See also
+- `checklist.md` — per-use steps
+- `examples.md` — worked examples
+- `failure_modes.md` — traps to avoid

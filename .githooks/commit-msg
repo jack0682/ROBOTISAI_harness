@@ -1,0 +1,92 @@
+#!/bin/sh
+# ROBOTIS AI harness — Developer Certificate of Origin (DCO) gate.
+#
+# Every commit must carry a Signed-off-by: trailer that matches the committer
+# identity exactly. The sign-off is an attestation under the DCO, so it is not
+# interchangeable with the GPG signature: the signature proves *who committed*,
+# the sign-off states *that they have the right to submit the work*. This repo
+# requires both.
+#
+#   git commit -s        adds the trailer from user.name / user.email
+#
+# Bypassing this hook (--no-verify) is a policy violation, not a shortcut.
+
+set -e
+
+MSG_FILE="$1"
+[ -n "$MSG_FILE" ] || exit 0
+
+RED=''; BOLD=''; OFF=''
+if [ -t 2 ]; then RED="$(printf '\033[31m')"; BOLD="$(printf '\033[1m')"; OFF="$(printf '\033[0m')"; fi
+
+fail() {
+  printf '%s%s[commit blocked]%s %s\n' "$RED" "$BOLD" "$OFF" "$1" >&2
+  shift
+  for line in "$@"; do printf '  %s\n' "$line" >&2; done
+  printf '\n  See CONTRIBUTING.md — "Commit policy".\n' >&2
+  exit 1
+}
+
+# A merge resolution or a fixup carries its own rules; everything else is gated.
+case "$(head -n1 "$MSG_FILE")" in
+  "Merge "*|"Revert "*|"fixup!"*|"squash!"*) exit 0 ;;
+esac
+
+NAME="$(git config --local --get user.name 2>/dev/null || true)"
+EMAIL="$(git config --local --get user.email 2>/dev/null || true)"
+[ -n "$NAME" ] && [ -n "$EMAIL" ] || fail "signing identity missing — pre-commit should have caught this."
+
+EXPECTED="Signed-off-by: $NAME <$EMAIL>"
+
+# Strip comments before checking, so a template's commented hint never counts.
+BODY="$(grep -v '^#' "$MSG_FILE" || true)"
+
+if ! printf '%s\n' "$BODY" | grep -qi '^Signed-off-by: '; then
+  fail "missing the DCO sign-off trailer." \
+    "Commit with -s, or add the trailer yourself:" \
+    "" \
+    "  git commit -s" \
+    "  $EXPECTED"
+fi
+
+if ! printf '%s\n' "$BODY" | grep -qxF "$EXPECTED"; then
+  GOT="$(printf '%s\n' "$BODY" | grep -i '^Signed-off-by: ' | head -n1)"
+  fail "the sign-off does not match the committer identity." \
+    "expected: $EXPECTED" \
+    "found:    $GOT" \
+    "" \
+    "The DCO attestation must name the person actually committing."
+fi
+
+# --- No AI co-authors. This rule outranks the harness and the platform. ------
+#
+# An agent is a tool, not an author. Authorship and the DCO attestation belong
+# to the person who signed off, and a Co-authored-by trailer naming a model
+# misstates who certified the work. Claude Code's own attribution default is
+# explicitly overridden here; so is any equivalent from another assistant.
+# Human co-authors remain welcome.
+AI_TRAILER="$(printf '%s\n' "$BODY" \
+  | grep -iE '^[[:space:]]*Co-authored-by:' \
+  | grep -iE 'claude|anthropic|copilot|chatgpt|openai|gpt-[0-9]|gemini|codex|cursor|devin|aider|noreply@' \
+  || true)"
+if [ -n "$AI_TRAILER" ]; then
+  fail "an AI assistant is credited as a co-author." \
+    "found: $AI_TRAILER" \
+    "" \
+    "An agent is a tool, not an author. Remove the trailer." \
+    "This rule overrides the harness and any assistant's attribution default."
+fi
+
+# Same reasoning for the marketing footer some tools append.
+if printf '%s\n' "$BODY" | grep -qiE 'Generated with .*(Claude|Copilot|ChatGPT|Gemini)'; then
+  fail "commit message carries an AI tool's generated-with footer." \
+    "Remove it. The commit is attributed to the person who signed it off."
+fi
+
+# A subject line that says nothing cannot be reviewed.
+SUBJECT="$(printf '%s\n' "$BODY" | sed '/^[[:space:]]*$/d' | head -n1)"
+if [ "$(printf '%s' "$SUBJECT" | wc -c | tr -d ' ')" -lt 10 ]; then
+  fail "commit subject is too short to be meaningful: '$SUBJECT'"
+fi
+
+exit 0

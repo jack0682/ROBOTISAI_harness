@@ -1,0 +1,453 @@
+{
+ "ablation-planner": [
+  "ablation",
+  "which component matters",
+  "消融实验",
+  "어느 부분이 기여했는지",
+  "어블레이션"
+ ],
+ "agent-browser": [
+  ",",
+  "automate browser actions",
+  "click a button",
+  "fill out a form",
+  "login to a site",
+  "open a website",
+  "scrape data from a page",
+  "take a screenshot",
+  "test this web app"
+ ],
+ "analyze-results": [
+  "analyze results",
+  "compare"
+ ],
+ "arxiv": [
+  "arxiv search",
+  "download paper",
+  "fetch arxiv",
+  "get paper pdf",
+  "search arxiv"
+ ],
+ "auto-paper-improvement-loop": [
+  ",",
+  "auto improve",
+  "improve paper",
+  "改论文",
+  "论文润色循环"
+ ],
+ "auto-review-loop": [
+  ",",
+  "auto review loop",
+  "llm review",
+  "minimax review",
+  "review until it passes"
+ ],
+ "citation-audit": [
+  ",",
+  "check citations",
+  "citation audit",
+  "verify references",
+  "审查引用",
+  "引用核对"
+ ],
+ "csv-data-summarizer": [
+  "csv 요약",
+  "describe the data",
+  "quick plot of this table",
+  "summarize this csv",
+  "기술통계"
+ ],
+ "doc-coauthoring": [
+  "decision doc",
+  "draft a proposal",
+  "write the spec",
+  "문서 정리해줘",
+  "회의록 정리"
+ ],
+ "exa-search": [
+  "exa search",
+  "find similar pages",
+  "web search with content"
+ ],
+ "experiment-audit": [
+  ",",
+  "audit results",
+  "check experiment integrity",
+  "实验诚实度",
+  "审计实验"
+ ],
+ "experiment-bridge": [
+  ",",
+  "bridge",
+  "deploy the plan",
+  "implement experiments",
+  "从计划到跑实验",
+  "实现实验"
+ ],
+ "experiment-plan": [
+  ",",
+  "evaluation protocol",
+  "experiment plan",
+  "实验方案",
+  "실험 설계",
+  "어떤 실험을 해야"
+ ],
+ "experiment-queue": [
+  "auto-chain experiments",
+  "batch experiments",
+  "multi-seed sweep",
+  "run grid",
+  "队列实验"
+ ],
+ "feishu-notify": [
+  ",",
+  "notify feishu",
+  "发飞书"
+ ],
+ "figure-spec": [
+  ",",
+  "draw architecture",
+  "figure spec",
+  "pipeline 图",
+  "workflow 图",
+  "架构图",
+  "确定性矢量图"
+ ],
+ "file-organizer": [],
+ "find-skills": [
+  "find a skill for x",
+  "how do i do x",
+  "is there a skill that can..."
+ ],
+ "formula-derivation": [
+  "derive this",
+  "where does this equation come from",
+  "推导公式",
+  "수식 정리",
+  "유도해줘"
+ ],
+ "grant-proposal": [
+  ",",
+  "grant proposal",
+  "nsf proposal",
+  "write grant",
+  "write kakenhi",
+  "写基金",
+  "基金申请",
+  "申請書",
+  "科研費"
+ ],
+ "harness-activate": [
+  "load the harness",
+  "use the harness"
+ ],
+ "hugging-face-cli": [
+  "hf cli",
+  "huggingface",
+  "push to the hub",
+  "모델 다운로드",
+  "허깅페이스"
+ ],
+ "hugging-face-datasets": [
+  "dataset repo",
+  "publish a dataset",
+  "query the dataset with sql",
+  "데이터셋 올려"
+ ],
+ "idea-creator": [
+  "brainstorm ideas",
+  "generate research ideas",
+  "what can we work on",
+  "找idea"
+ ],
+ "idea-discovery": [
+  ",",
+  "idea discovery pipeline",
+  "从零开始找方向",
+  "找idea全流程"
+ ],
+ "idea-discovery-robot": [
+  ",",
+  "embodied ai idea",
+  "robotics idea discovery",
+  "sim2real 选题",
+  "机器人找idea",
+  "机器人方向探索"
+ ],
+ "kill-argument": [
+  ",",
+  "adversarial review",
+  "hostile review",
+  "kill argument",
+  "rebuttal preparation",
+  "reviewer-2 simulation"
+ ],
+ "mcp-builder": [
+  "expose this api as tools",
+  "mcp server",
+  "mcp 서버 만들어",
+  "write an mcp tool"
+ ],
+ "mermaid-diagram": [
+  "flowchart",
+  "mermaid",
+  "流程图",
+  "순서도",
+  "시퀀스 다이어그램"
+ ],
+ "meta-apply": [
+  ",",
+  "/meta-apply",
+  "land the staged patches",
+  "meta apply",
+  "应用优化"
+ ],
+ "meta-optimize": [
+  ",",
+  "improve skills",
+  "meta optimize",
+  "优化技能",
+  "分析使用记录"
+ ],
+ "monitor-experiment": [
+  "check results",
+  "is it done",
+  "monitor"
+ ],
+ "notebooklm": [
+  "create a podcast about x"
+ ],
+ "notebooklm-browser": [
+  "ask my notebook",
+  "notebooklm",
+  "노트북lm"
+ ],
+ "novelty-check": [
+  "check novelty",
+  "novelty check",
+  "有没有人做过",
+  "查新"
+ ],
+ "overleaf-sync": [
+  ",",
+  "connect overleaf",
+  "overleaf sync",
+  "overleaf 桥接",
+  "pull overleaf",
+  "push overleaf",
+  "同步 overleaf",
+  "推送到 overleaf"
+ ],
+ "paper-claim-audit": [
+  ",",
+  "check paper claims",
+  "verify numbers",
+  "审查论文数据",
+  "论文数字核对"
+ ],
+ "paper-compile": [
+  ",",
+  "build pdf",
+  "compile paper",
+  "生成pdf",
+  "编译论文"
+ ],
+ "paper-figure": [
+  ",",
+  "generate figures",
+  "paper figures",
+  "作图",
+  "画图"
+ ],
+ "paper-illustration": [
+  ",",
+  "ai绘图",
+  "codex image",
+  "generate diagram",
+  "paper illustration",
+  "生成图表",
+  "画架构图"
+ ],
+ "paper-plan": [
+  ",",
+  "paper outline",
+  "plan the paper",
+  "写大纲",
+  "论文规划"
+ ],
+ "paper-write": [
+  ",",
+  "draft latex",
+  "write paper",
+  "写论文",
+  "开始写"
+ ],
+ "paper-writing": [
+  ",",
+  "paper writing",
+  "write paper pipeline",
+  "从报告到pdf",
+  "写论文全流程"
+ ],
+ "pdf": [
+  "extract tables from the pdf",
+  "fill this form",
+  "ocr",
+  "pdf 합쳐"
+ ],
+ "proof-checker": [
+  "check this proof",
+  "proof check",
+  "verify proof",
+  "审证明",
+  "检查证明"
+ ],
+ "proof-writer": [
+  "prove this",
+  "写证明",
+  "补全证明",
+  "证明某个命题",
+  "증명 써줘",
+  "증명해줘"
+ ],
+ "qzcli": [
+  "avail",
+  "batch submit",
+  "list jobs",
+  "qzcli",
+  "stop job",
+  "submit job",
+  "启智平台",
+  "查计算组"
+ ],
+ "rebuttal": [
+  ",",
+  "icml rebuttal",
+  "openreview response",
+  "rebuttal",
+  "reply to reviewers"
+ ],
+ "relentless-theory-loop": [
+  ",",
+  "challenge assumptions",
+  "continue the thread",
+  "keep digging"
+ ],
+ "render-html": [
+  ",",
+  "export to html",
+  "make this readable",
+  "render html",
+  "出一份 html 报告",
+  "渲染 html"
+ ],
+ "research-lit": [
+  "find papers",
+  "literature review",
+  "related work",
+  "what does this paper say"
+ ],
+ "research-pipeline": [
+  ",",
+  "end-to-end research",
+  "full pipeline",
+  "从找idea到投稿",
+  "全流程"
+ ],
+ "research-refine": [
+  ",",
+  "decompose this problem",
+  "refine my approach",
+  "refine research plan",
+  "帮我细化方案",
+  "打磨idea",
+  "细化研究方案"
+ ],
+ "research-refine-pipeline": [
+  "串起来"
+ ],
+ "research-review": [
+  "get external review",
+  "help me review",
+  "review my research"
+ ],
+ "research-wiki": [
+  ",",
+  "add paper",
+  "research wiki",
+  "wiki query",
+  "查知识库",
+  "知识库"
+ ],
+ "resubmit-pipeline": [
+  ",",
+  "port paper to <new venue>",
+  "resubmit pipeline",
+  "resubmit to <venue>",
+  "tighten paper for resubmission",
+  "重投流程"
+ ],
+ "result-to-claim": [
+  "can i claim this",
+  "what does this result mean",
+  "这个结果说明什么",
+  "결과 해석",
+  "이 실험이 뭘 보여주는지"
+ ],
+ "run-experiment": [
+  "deploy to server",
+  "run experiment",
+  "跑实验",
+  "학습 돌려줘"
+ ],
+ "semantic-scholar": [
+  "citation search",
+  "find ieee papers",
+  "find journal papers",
+  "search semantic scholar",
+  "venue papers"
+ ],
+ "serverless-modal": [
+  ",",
+  "deploy to modal",
+  "modal run",
+  "modal training",
+  "run on modal",
+  "serverless gpu"
+ ],
+ "skill-creator": [],
+ "system-profile": [
+  "benchmark",
+  "bottleneck",
+  "profile"
+ ],
+ "training-check": [
+  "check wandb",
+  "is training healthy",
+  "loss가 이상해",
+  "nan",
+  "학습 잘 되고 있나"
+ ],
+ "vast-gpu": [
+  ",",
+  "destroy the instance",
+  "gpu 빌려",
+  "rent a server",
+  "rent gpu",
+  "vast.ai"
+ ],
+ "wiki-enrich": [
+  "enrich wiki",
+  "fill paper todos",
+  "research-wiki 自動填",
+  "wiki body 補完",
+  "把 paper 摘要寫進 wiki"
+ ],
+ "writing-systems-papers": [
+  ",",
+  "osdi paper",
+  "sosp paper",
+  "systems paper structure",
+  "写系统论文"
+ ]
+}

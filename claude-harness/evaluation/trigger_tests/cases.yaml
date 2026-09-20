@@ -1,0 +1,141 @@
+# Copyright 2026 ROBOTIS AI
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author: Jaehong Oh <jaehongoh1554@gmail.com>
+
+# trigger_tests — prompts that SHOULD route to a given mode/scope/skill.
+#
+# Run by READING (evaluation/README.md): take the prompt, decide what ROUTING.md +
+# the relevant `description` frontmatter would select, compare to `expect_*`. A miss
+# means the routing or a description is too weak — fix the trigger, not the test.
+#
+# INTEGRITY-checked by evaluation/check_routing_tests.py: every expect_mode /
+# expect_scope / expect_skill must name a REAL, ACTIVE mode/scope/skill (not an
+# archived one), so this golden set cannot silently rot when skills are archived.
+#
+# Fields (all optional except prompt + why): expect_mode, expect_scope,
+# expect_skill (string or list). Keep cases terse; one operation per case.
+
+cases:
+  # --- control: the scope that did not exist while its cases were failing ---
+  - prompt: "두 컨트롤러 각각은 안정적인데 같이 켜면 진동해. 왜?"
+    expect_mode: math_lock
+    expect_scope: control
+    why: "closed-loop instability from an interconnection, not from either block"
+
+  - prompt: "정지 상태에서는 힘 추정이 맞는데 움직이면 값이 튀어"
+    expect_mode: math_lock
+    expect_scope: control
+    why: "identifiability in the regime of use — right at rest is not evidence"
+
+  - prompt: "게인을 낮추니까 진동이 사라졌어. 이제 고쳐진 거지?"
+    expect_mode: counter
+    expect_scope: control
+    why: "a symptom stopped; the interconnection did not change"
+
+  # --- modes: one canonical trigger each ---
+  - prompt: "이 긴 메모에서 핵심 문제만 한 문장으로 뽑아줘"
+    expect_mode: think
+    why: "compression / core-problem extraction"
+
+  - prompt: "이 개념부터 제대로 정의하고 가자, 지금은 은유 수준이야"
+    expect_mode: define
+    why: "concept is undefined / stuck in metaphor — pin it down first"
+
+  - prompt: "이 수식이 진짜 그 주장을 뒷받침하는지 봐줘"
+    expect_mode: math_lock
+    expect_scope: math
+    why: "claim↔math correspondence check"
+
+  - prompt: "이 주장, 근거가 충분한지 검증된 건지 판단해줘"
+    expect_mode: verify
+    why: "separate claim from evidence, judge claim strength"
+
+  - prompt: "이 결과, 다른 걸로도 설명되지 않아? 반례 찾아봐"
+    expect_mode: counter
+    why: "alternative-explanation / attack the claim"
+
+  - prompt: "이 설계를 실제 코드 변경으로 옮겨줘"
+    expect_mode: execute
+    expect_scope: coding
+    why: "turn a decided design into the smallest correct change"
+
+  - prompt: "이 분야 이미 있는 건지, 이름만 다른 건지 지형을 정리해줘"
+    expect_mode: research
+    expect_scope: research
+    why: "field terrain / novelty / prior-art map"
+
+  - prompt: "이 논문 리뷰어 입장에서 어디서 리젝될지 까줘"
+    expect_mode: paper
+    expect_scope: writing
+    why: "hostile-reviewer critique of a written artifact"
+
+  - prompt: "이 작업을 다른 에이전트한테 시킬 프롬프트(행동 계약)로 만들어줘"
+    expect_mode: prompt
+    expect_scope: prompts
+    why: "behavior-contract authoring for an external agent"
+
+  - prompt: "이 결정이랑 이유를 나중에 재사용하게 기록해둬"
+    expect_mode: memory
+    why: "distill a durable, reusable decision into memory"
+
+  - prompt: "이거 진짜 다 끝난 건지, 원래 요청이랑 대조해서 감사해줘"
+    expect_mode: audit
+    why: "is the work actually done, not just claimed"
+
+  - prompt: "지금 너무 추상적인데 바로 실행할 수 있는 단위로 내려줘"
+    expect_mode: layer
+    why: "move between abstraction levels (too high → descend to execution)"
+
+  # --- experiments scope ---
+  - prompt: "이 실험이 그 주장을 실제로 테스트할 수 있는지부터 설계해줘"
+    expect_mode: execute
+    expect_scope: experiments
+    expect_skill: experiment-plan
+    why: "design an experiment that can confirm/refute the stated claim"
+
+  # --- key skills ---
+  - prompt: "이 LaTeX 증명 검증하고 갭 찾아줘"
+    expect_scope: math
+    expect_skill: proof-checker
+    why: "rigorous proof verification + gap finding"
+
+  - prompt: "이 명제 증명 좀 써줘"
+    expect_scope: math
+    expect_skill: proof-writer
+    why: "write a rigorous proof"
+
+  - prompt: "이 주장을 가장 강하게 반박하는 리젝 메모를 써봐"
+    expect_skill: kill-argument
+    why: "adversarial strongest-rejection construction"
+
+  - prompt: "이 주제 관련 논문들 찾아서 관련연구 정리해줘"
+    expect_scope: research
+    expect_skill: research-lit
+    why: "literature search + related-work synthesis"
+
+  - prompt: "논문 숫자가 raw 결과 파일이랑 맞는지 대조해줘"
+    expect_scope: writing
+    expect_skill: paper-claim-audit
+    why: "paper-to-evidence number fidelity"
+
+  - prompt: "참고문헌이 실제로 존재하고 맞게 인용됐는지 감사해줘"
+    expect_scope: writing
+    expect_skill: citation-audit
+    why: "citation existence + correctness audit"
+
+  - prompt: "실험 다 돌았는데 이게 무슨 claim을 뒷받침하는지 판정해줘"
+    expect_scope: experiments
+    expect_skill: result-to-claim
+    why: "judge what claims the results support before writing"

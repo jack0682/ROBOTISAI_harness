@@ -1,0 +1,84 @@
+#!/bin/sh
+# ROBOTIS AI harness — commit identity + signing gate.
+#
+# Fails closed. A commit in this repository must be attributable and verifiable:
+#   1. user.name / user.email are set IN THIS REPOSITORY (--local), never
+#      inherited from ~/.gitconfig. Inheritance is the failure this guards:
+#      a global identity silently stamps the wrong person onto team commits.
+#   2. user.signingkey is set and the secret key is actually present.
+#   3. commit.gpgsign is true, so every commit is signed without --gpg-sign.
+#
+# Bypassing this hook (--no-verify) is a policy violation, not a shortcut.
+
+set -e
+
+RED=''; BOLD=''; OFF=''
+if [ -t 2 ]; then RED="$(printf '\033[31m')"; BOLD="$(printf '\033[1m')"; OFF="$(printf '\033[0m')"; fi
+
+fail() {
+  printf '%s%s[commit blocked]%s %s\n' "$RED" "$BOLD" "$OFF" "$1" >&2
+  shift
+  for line in "$@"; do printf '  %s\n' "$line" >&2; done
+  printf '\n  See CONTRIBUTING.md — "Commit policy".\n' >&2
+  exit 1
+}
+
+local_cfg() { git config --local --get "$1" 2>/dev/null || true; }
+
+NAME="$(local_cfg user.name)"
+EMAIL="$(local_cfg user.email)"
+KEY="$(local_cfg user.signingkey)"
+SIGN="$(local_cfg commit.gpgsign)"
+
+if [ -z "$NAME" ] || [ -z "$EMAIL" ]; then
+  fail "signing identity is not configured for this repository." \
+    "user.name and user.email must be set with --local, so that a personal" \
+    "global identity is never inherited onto a team commit." \
+    "" \
+    "  git config --local user.name  \"Your Name\"" \
+    "  git config --local user.email \"you@robotis.com\""
+fi
+
+case "$EMAIL" in
+  *@*.*) : ;;
+  *) fail "user.email ($EMAIL) is not a valid address." ;;
+esac
+
+if [ -z "$KEY" ]; then
+  fail "no GPG signing key is configured for this repository." \
+    "  gpg --list-secret-keys --keyid-format=long" \
+    "  git config --local user.signingkey <KEY_ID>"
+fi
+
+if [ "$SIGN" != "true" ]; then
+  fail "commit.gpgsign is not true in this repository." \
+    "  git config --local commit.gpgsign true"
+fi
+
+if command -v gpg >/dev/null 2>&1; then
+  if ! gpg --list-secret-keys "$KEY" >/dev/null 2>&1; then
+    fail "configured signing key '$KEY' has no secret key in this keyring." \
+      "The commit would fail to sign. Import the key, or point user.signingkey" \
+      "at one that gpg actually holds:" \
+      "  gpg --list-secret-keys --keyid-format=long"
+  fi
+else
+  fail "gpg is not installed, so commits cannot be signed." \
+    "  macOS:  brew install gnupg" \
+    "  Ubuntu: sudo apt install gnupg"
+fi
+
+# --- Mandatory Apache 2.0 / ROBOTIS AI licence header on every source file ---
+HEADER_CHECK="claude-harness/scripts/check_license_header.py"
+if [ -f "$HEADER_CHECK" ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 "$HEADER_CHECK" --staged >/dev/null 2>&1; then
+    printf '%s%s[commit blocked]%s staged files are missing the licence header.\n' \
+      "$RED" "$BOLD" "$OFF" >&2
+    python3 "$HEADER_CHECK" --staged >&2 || true
+    printf '\n  Insert it with:  python3 %s --fix\n' "$HEADER_CHECK" >&2
+    printf '  Reference: claude-harness/skills/robotis-style/references/license-header.md\n' >&2
+    exit 1
+  fi
+fi
+
+exit 0

@@ -1,0 +1,125 @@
+# Copyright 2026 ROBOTIS AI
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author: Jaehong Oh <jaehongoh1554@gmail.com>
+
+# Global harness configuration.
+# This file is the contract the scripts read for defaults and layer toggles.
+# It must NOT contain any project-specific content.
+
+harness:
+  name: "claude-harness"
+  version: "0.3.0"
+
+# Conceptual layers, in rough load order. The spine (KERNEL.md + ROUTING.md) is
+# the always-on surface this harness controls; everything below it loads on
+# demand via ROUTING.md. Skills are the exception and the reason the real
+# figure is more than twice the spine: the .claude/skills symlink puts all 67
+# frontmatters in front of the model every session whether or not one is used.
+# Their size is budgeted and checked by evaluation/skill_triggers.py.
+layers:
+  - spine        # KERNEL.md + ROUTING.md (always active)
+  - scopes       # domain governance (scopes/<domain>/AGENTS.md)
+  - modes        # cognitive operations (modes/<op>.md)
+  - kernel       # full principle texts (kernel/*.md), loaded for depth
+  - protocols    # procedural detail
+  - styles
+  - skills
+  - memory       # durable, reusable knowledge
+  - projects
+  - sessions
+
+# Distribution contract: which layers come from upstream and which belong to
+# this deployment. `scripts/upgrade_harness.py` reads this, so the two lists
+# cannot drift apart the way they had -- modes/ and scopes/ were missing from
+# the sync set while being declared universal everywhere else, and KERNEL.md and
+# ROUTING.md, the only two files the bridge actually imports, were never synced
+# at all.
+distribution:
+  synced_dirs:
+    - kernel
+    - protocols
+    - styles
+    - modes
+    - scopes
+    - templates
+    - evaluation
+    - commands
+    - scripts
+    - tests
+    - skills
+  synced_files:
+    - KERNEL.md
+    - ROUTING.md
+    - HARNESS.md
+    - README.md
+  # Never synced: this is what makes a deployment a deployment.
+  local_dirs:
+    - projects
+    - sessions
+    - memory
+    - registry
+    - _archive
+    # Notes about somebody else's repository. Never sync them into a deployment:
+    # an analysis of one workspace has no business appearing in another.
+    - analysis
+
+# Default selections applied when a project does not specify its own.
+defaults:
+  protocols:
+    - answering
+    - planning
+  styles:
+    - citation
+
+# Deep principle texts (kernel/*.md). The spine KERNEL.md condenses these and
+# points to them; they are loaded on demand for depth, and validate_harness.py
+# checks each exists. Order = the order KERNEL.md references them.
+kernel:
+  - identity
+  - operating_principles
+  - reasoning_protocol
+  - uncertainty_protocol
+  - verification_authority
+  - execution_protocol
+  - autonomy_mandate
+  - tooling_protocol
+  - output_protocol
+  - anti_patterns
+
+# Guard: substrings that must NEVER appear in the agnostic layers
+# (kernel/ protocols/ styles/ modes/ scopes/), enforced by validate_harness.py.
+# Populate this with the *domain* terms of whatever project this deployment
+# governs, so those terms stay in projects/<name>/ and out of the universal
+# layers. Deliberately empty: the previous deployment's list was seeded with
+# neural-network theory terms plus `robot` and `VLA`, which would fight a
+# robotics deployment rather than protect it. An empty list is skipped by the
+# validator; add terms when this harness has a project whose vocabulary is
+# worth fencing off.
+kernel_leakage_blocklist: []
+
+# Native Claude Code bridge configuration (consumed by install_bridge.py).
+# The bridge CLAUDE.md @-imports only the spine (KERNEL.md + ROUTING.md);
+# ROUTING.md pulls the rest on demand.
+bridge:
+  # Path to the repo root that Claude Code auto-loads, relative to this harness dir.
+  root_relative: ".."
+  # The workspace holding the materials this harness governs, relative to the
+  # bridge root. Claude runs inside the harness repo; analysis targets live here.
+  workspace_relative: ".."
+  # Commands installed as real slash commands.
+  install_commands:
+    - harness-load
+    - harness-checkpoint
+    - harness-init

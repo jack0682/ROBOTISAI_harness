@@ -1,0 +1,18 @@
+# <Verb in imperative, capitalised> <what changed> — max ~72 chars
+#
+# Why this change exists. What it fixes or enables. What was verified and how.
+# Wrap at 72. Reference issues as: Refs: #123 / Fixes: #123
+#
+# ── Required, enforced by .githooks ─────────────────────────────────────────
+#   Signed-off-by: Your Name <you@robotis.com>     ← `git commit -s` adds this
+#   GPG signature                                   ← commit.gpgsign = true
+#
+# The sign-off is a DCO attestation that you wrote the work or have the right
+# to submit it. The GPG signature proves who committed it. Both are required;
+# neither substitutes for the other.
+#
+# Subjects start with a capitalised verb, because CHANGELOG.rst is generated
+# from them (ROBOTIS ROS Style Guide 4.6):
+#   Added zero-copy path to the diff-drive controller
+#   Fixed odometry drift when the encoder wraps
+#   Removed the deprecated buzzer parameter
