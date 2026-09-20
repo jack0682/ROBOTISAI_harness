@@ -186,6 +186,30 @@ README rewritten in Korean, ordered as a team member actually meets it: clone,
 install into a workspace, type `/harness` — then what is enforced, how updates
 travel, and the five things people get stuck on.
 
+### Follow-up: README as a front door, and a social card
+
+The README was a set of instructions; it is now the thing a team member is
+actually handed. Restructured in Korean and opened with the question they have
+before any instruction — *why not just use Claude Code?* — answered as a
+before/after table rather than claims: the style guide loads on opening a file
+instead of being pasted each session; a violation is blocked at commit rather
+than caught at review; an unrun test cannot be called passing; a session that
+ends leaves a worklog the next one reads.
+
+Added a skills catalogue. 68 skills existed and nothing outside
+`skills/INDEX.md` said so, which meant people could not ask for capabilities
+they did not know were there. Grouped by what someone would want to do —
+coding, agent tooling, experiments, theory, research, writing, pipelines — with
+one line each on what it is for.
+
+Added shields.io badges and `assets/social-card.png` (1280×640, every piece of
+text ≥40pt from the edge so a link unfurl cannot crop it). Drawn with
+ImageMagick primitives rather than from SVG, because this machine has no
+librsvg delegate and the internal renderer mangles text — checked by rendering
+and looking at it, not by assuming. `assets/make_social_card.sh` regenerates it
+and is byte-reproducible: PNG timestamp and text chunks are stripped, so
+re-running it produces no diff.
+
 ### Open, not blocking
 
 - `bootstrap.sh` has been exercised against a scratch workspace but not against
