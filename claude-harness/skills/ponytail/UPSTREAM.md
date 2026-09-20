@@ -85,3 +85,61 @@ it for `skill-creator` and `file-organizer`), which keeps `/ponytail` working
 while stopping it from selecting itself. **Left as upstream ships it**, because
 narrowing a vendored skill's trigger silently is how a library stops behaving
 the way its documentation says it does.
+
+---
+
+## Was the amendment worth it? — measured, 2026-09-20
+
+An A/B, because asserting that a prompt amendment helps is exactly the kind of
+claim this harness refuses to take on faith. Two fresh agents, same model, same
+task, given **only** the doctrine text: one upstream, one upstream + amendment.
+
+Task: `wheel_delta(prev_ticks, curr_ticks, counts_per_rev)` for a 16-bit
+wrapping robot encoder — a case where the short answer is tempting.
+
+**Upstream produced a correct one-liner.**
+
+```python
+return (curr_ticks - prev_ticks + 32768) % 65536 - 32768
+```
+
+**The amendment produced eight lines**: the same unwrap, plus range checks on
+both readings and on `counts_per_rev`, a docstring naming the half-revolution
+assumption, and a closing statement of what was *not* verified.
+
+| | upstream | amended |
+|---|---|---|
+| 7 well-formed cases (forward, reverse, both wrap directions, zero, ±32767) | **all correct** | **all correct** |
+| negative tick from a driver bug | returns `101` | raises `ValueError` |
+| tick above the register (70000) | returns `-4364` | raises `ValueError` |
+| `counts_per_rev = 0` | returns `100` | raises `ValueError` |
+| body length | 1 line | 8 lines |
+
+**The result does not say what was expected, and that is the finding.** The
+hypothesis behind the amendment — *short code is wrong code* — was **not
+supported**: upstream's one-liner is correct on every well-formed input, including
+both wrap directions. Brevity did not cost correctness here.
+
+What it did cost is behaviour on garbage. On three of four malformed readings
+upstream returns a **plausible number** — `-4364` ticks of movement that never
+happened — and odometry integrates it without noticing. The amended version
+stops. For a wheel encoder that difference is the whole point, and it is not
+visible in any test of well-formed input.
+
+One honest caveat on the other side: the amended version validates
+`counts_per_rev`, which does not enter the arithmetic. **Both** agents noticed
+the parameter is unused; upstream proposed deleting it, the amendment kept and
+guarded it. That is the amendment's failure mode — spending lines on a
+parameter that should arguably not exist — and clause 3's "not permission to
+pad" is the line holding it back.
+
+A third difference neither doctrine decides: at a movement of exactly half the
+register (32768) the two disagree in sign (`-32768` vs `+32768`). The input is
+genuinely direction-ambiguous, so neither is wrong. Worth knowing before either
+one integrates into a position estimate.
+
+**Scope of this evidence.** One task, one sample per arm, one model. It shows
+the mechanism is real and names what it buys; it is not a measurement of how
+often it pays. Reproduce with `wheel_delta` or a task of your own before
+treating the effect size as known.
+

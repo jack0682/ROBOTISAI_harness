@@ -18,7 +18,7 @@
 
 [![Skills](https://img.shields.io/badge/skills-72-6E56CF?logo=claude&logoColor=white)](claude-harness/skills/INDEX.md)
 [![Hooks](https://img.shields.io/badge/hooks-7_enforcing-1A7F37?logo=githubactions&logoColor=white)](claude-harness/scripts/hooks/)
-[![Tests](https://img.shields.io/badge/tests-156_passing-1A7F37?logo=pytest&logoColor=white)](claude-harness/tests/)
+[![Tests](https://img.shields.io/badge/tests-164_passing-1A7F37?logo=pytest&logoColor=white)](claude-harness/tests/)
 [![Commits](https://img.shields.io/badge/commits-GPG_%2B_DCO-1A7F37?logo=gnuprivacyguard&logoColor=white)](claude-harness/protocols/commit_policy.md)
 
 [English](README.md) · **한국어**
@@ -527,7 +527,7 @@ gpg --full-generate-key     # RSA 4096, 회사 이메일
 | `projects/` | 내 프로젝트 정보 — 목표, 제약, 용어 |
 | `sessions/` | 작업 기록. 다음 세션이 여기서 이어받음 |
 | `scripts/hooks/` | 강제 담당 훅 7개 |
-| `tests/` | 자체 테스트 156개 |
+| `tests/` | 자체 테스트 164개 |
 
 ---
 

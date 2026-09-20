@@ -322,6 +322,37 @@ Bound in `scopes/coding/AGENTS.md` so it applies whether or not the skill is
 loaded, recorded in `UPSTREAM.md`, and surfaced in both READMEs. Frontmatter
 untouched, so the always-on budget is unchanged at 27,635 B.
 
+### Follow-up: the amendment was A/B tested, and the hypothesis lost
+
+Asserting that a prompt amendment helps is the kind of claim this harness
+refuses on faith, so it was measured. Two fresh agents, same model, same task,
+given only the doctrine: one upstream, one upstream + amendment. Task chosen so
+the short answer is tempting — `wheel_delta` on a 16-bit wrapping encoder.
+
+**The hypothesis behind the amendment — short code is wrong code — was not
+supported.** Upstream produced a correct one-liner, right on all seven
+well-formed cases including both wrap directions. Brevity cost nothing there.
+
+What it did cost is behaviour on garbage. On three of four malformed readings
+upstream returns a *plausible* number — `-4364` ticks of movement that never
+happened — and odometry integrates it silently. The amended version raises.
+For a wheel encoder that is the whole difference, and no test of well-formed
+input would ever show it.
+
+Recorded honestly in `UPSTREAM.md`, including the amendment's own failure mode:
+it guards `counts_per_rev`, which does not enter the arithmetic. Both agents
+noticed the parameter is unused; upstream proposed deleting it, the amendment
+kept and validated it. That is padding, and clause 3 is what holds it back.
+Also recorded: at exactly half a register the two disagree in sign, and the
+input is genuinely ambiguous, so neither is wrong.
+
+**Scope:** one task, one sample per arm, one model. It shows the mechanism is
+real and names what it buys. It does not measure how often it pays.
+
+`tests/test_ponytail_amendment.py` (8 tests) pins the amendment's four clauses,
+the `---` boundary that keeps upstream diffable, the scope binding and the MIT
+notice — so a future re-vendor cannot drop it silently. Suite now 164.
+
 ### Open, not blocking
 
 - `bootstrap.sh` has been exercised against a scratch workspace but not against
