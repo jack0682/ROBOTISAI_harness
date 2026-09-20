@@ -58,9 +58,7 @@ def main(argv=None):
 
     written = []
     written.append(_write_claude_md(root, harness_dir, config))
-    written.append(_write_harness_load(root, harness_dir))
-    written.append(_write_harness_checkpoint(root, harness_dir))
-    written.append(_write_harness_init(root, harness_dir))
+    written.extend(_write_bridge_commands(root, harness_dir, config))
     written.append(_write_activate_skill(root, harness_dir))
     written.append(_write_settings(root, harness_dir))
     written.append(_ensure_gitignore(root, harness_dir))
@@ -114,6 +112,44 @@ def _write(path, content, keep_foreign_regions=False):
     with open(path, "w", encoding="utf-8") as fh:
         fh.write(content)
     return path
+
+
+def _write_bridge_commands(root, hdir, config):
+    """Install the slash commands named in `bridge.install_commands`.
+
+    Each entry is a bare name: `commands/<name>.md` in the harness is installed
+    as `.claude/commands/harness-<name>.md`, with `claude-harness/` rebound to
+    this deployment's harness directory.
+
+    This used to be one hardcoded generator per command, with two of them
+    holding a second copy of a body that also existed as a file -- so the copies
+    drifted, and adding a command meant editing this file. The list is now data.
+    A named command whose file is missing is reported rather than skipped
+    silently: a slash command that does not exist is indistinguishable, to the
+    user, from one that does nothing.
+    """
+    out = []
+    src_dir = os.path.join(C.harness_root(), "commands")
+    dest_dir = os.path.join(root, ".claude", "commands")
+    _ensure_dir(dest_dir)
+    for name in config.get("bridge", {}).get("install_commands", []):
+        name = str(name).strip()
+        if not name:
+            continue
+        # Tolerate a legacy entry that already carries the installed prefix.
+        stem = name[len("harness-"):] if name.startswith("harness-") else name
+        src = os.path.join(src_dir, f"{stem}.md")
+        if not os.path.isfile(src):
+            print(f"  ! install_commands names '{name}' but "
+                  f"commands/{stem}.md does not exist — skipped")
+            continue
+        with open(src, "r", encoding="utf-8") as fh:
+            content = fh.read().replace("claude-harness/", f"{hdir}/")
+        # `harness` is the entry point and installs bare, not as
+        # `harness-harness`. Everything else is namespaced under the prefix.
+        installed = "harness.md" if stem == "harness" else f"harness-{stem}.md"
+        out.append(_write(os.path.join(dest_dir, installed), content))
+    return out
 
 
 def _write_claude_md(root, hdir, config):
@@ -200,63 +236,6 @@ def _write_claude_md(root, hdir, config):
     ]
     return _write(os.path.join(root, "CLAUDE.md"), "\n".join(lines),
                   keep_foreign_regions=True)
-
-
-def _write_harness_load(root, hdir):
-    content = f"""---
-description: Load the layered harness for a project and task — assembles kernel, protocol, skills, project context, and the latest session in load order.
-argument-hint: <project> [task_type]
-allowed-tools: [Read, Bash, Glob]
----
-
-Load the harness context for the requested project and task, in this order (read
-each file that exists):
-
-1. `{hdir}/HARNESS.md`
-2. `{hdir}/kernel/*.md` (the constitution)
-3. `{hdir}/protocols/<task_type>.md` (omitted → the project's `protocols.default`,
-   else the harness `defaults.protocols`), plus the project's `protocols.additional`
-4. the project's default `{hdir}/styles/*.md`
-5. required `{hdir}/skills/<skill>/SKILL.md` from the project config
-6. `{hdir}/projects/<project>/PROJECT.md`, `context.md`, `constraints.md`, `local_rules.md`
-7. `{hdir}/projects/<project>/overrides/*.md`
-8. the latest file in `{hdir}/sessions/`
-
-Arguments: $ARGUMENTS
-
-You can preview the exact ordered file list with:
-`python3 {hdir}/scripts/collect_context.py <project> <task_type>`
-(add `--show` to dump contents). Honor the project's `constraints.md` gates. The
-kernel always wins over project rules unless a project marks an explicit override.
-For work spanning many steps or sessions, also read `{hdir}/protocols/long_task.md`;
-before claiming completion, apply `{hdir}/protocols/validation.md`.
-"""
-    return _write(os.path.join(root, ".claude", "commands", "harness-load.md"), content)
-
-
-def _write_harness_checkpoint(root, hdir):
-    content = f"""---
-description: Write a control-flow checkpoint of the current long task into the harness sessions/ so work continues or resumes deliberately.
-argument-hint: [task label]
-allowed-tools: [Read, Write, Bash]
----
-
-Follow `{hdir}/protocols/long_task.md` and the checkpoint rules in
-`{hdir}/kernel/execution_protocol.md`. Fill `{hdir}/templates/checkpoint.md` and
-write it into `{hdir}/sessions/<date>_<slug>.md` (or create the session via
-`python3 {hdir}/scripts/new_session.py --task "..."`).
-
-Task label (optional): $ARGUMENTS
-
-A checkpoint is control flow, not a summary: record the trigger, current state
-(done-and-verified / in-progress / pending), evidence, plan status,
-decisions/assumptions, remaining unknowns, risks, the single next action, and
-`Continue or stop` — which defaults to **continue**; stop only if the objective
-is complete or a hard external blocker exists. Write so a fresh session could
-continue from the checkpoint alone, then take the next action.
-"""
-    return _write(
-        os.path.join(root, ".claude", "commands", "harness-checkpoint.md"), content)
 
 
 def _ensure_gitignore(root, hdir):
@@ -523,15 +502,6 @@ def _link_skills(root):
             "then re-run install_bridge.py.")
     os.symlink(target, link)
     return [link]
-
-
-def _write_harness_init(root, hdir):
-    # Mirrors the canonical commands/init.md, with paths bound to this harness dir.
-    canonical = os.path.join(C.harness_root(), "commands", "init.md")
-    with open(canonical, "r", encoding="utf-8") as fh:
-        content = fh.read().replace("claude-harness/", f"{hdir}/")
-    return _write(
-        os.path.join(root, ".claude", "commands", "harness-init.md"), content)
 
 
 def _write_activate_skill(root, hdir):
