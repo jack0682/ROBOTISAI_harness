@@ -45,9 +45,11 @@ case "$EMAIL" in
 esac
 
 if [ -z "$KEY" ]; then
-  fail "no GPG signing key is configured for this repository." \
-    "  gpg --list-secret-keys --keyid-format=long" \
-    "  git config --local user.signingkey <KEY_ID>"
+  fail "no signing key is configured for this repository." \
+    "OpenPGP:  gpg --list-secret-keys --keyid-format=long" \
+    "          git config --local user.signingkey <KEY_ID>" \
+    "SSH:      git config --local gpg.format ssh" \
+    "          git config --local user.signingkey ~/.ssh/<key>.pub"
 fi
 
 if [ "$SIGN" != "true" ]; then
@@ -55,18 +57,50 @@ if [ "$SIGN" != "true" ]; then
     "  git config --local commit.gpgsign true"
 fi
 
-if command -v gpg >/dev/null 2>&1; then
-  if ! gpg --list-secret-keys "$KEY" >/dev/null 2>&1; then
-    fail "configured signing key '$KEY' has no secret key in this keyring." \
-      "The commit would fail to sign. Import the key, or point user.signingkey" \
-      "at one that gpg actually holds:" \
-      "  gpg --list-secret-keys --keyid-format=long"
-  fi
-else
-  fail "gpg is not installed, so commits cannot be signed." \
-    "  macOS:  brew install gnupg" \
-    "  Ubuntu: sudo apt install gnupg"
-fi
+# Both signing formats are accepted; what must hold in either case is that the
+# key is actually usable, so the commit cannot fail halfway through signing.
+# SSH signing exists here because a team member may already have an SSH key on
+# their account and no OpenPGP key at all -- requiring GPG would be requiring a
+# second credential for no gain.
+FORMAT="$(local_cfg gpg.format)"
+case "$FORMAT" in
+  ssh)
+    command -v ssh-keygen >/dev/null 2>&1 || \
+      fail "gpg.format is ssh but ssh-keygen is not installed."
+    # user.signingkey is a path to a public key, or a literal key blob.
+    KEYPATH="$(printf '%s' "$KEY" | sed "s|^~|$HOME|")"
+    if [ -f "$KEYPATH" ]; then
+      ssh-keygen -lf "$KEYPATH" >/dev/null 2>&1 || \
+        fail "user.signingkey points at '$KEYPATH', which ssh-keygen cannot read."
+    else
+      case "$KEY" in
+        ssh-*|sk-ssh-*|ecdsa-*) : ;;
+        *) fail "gpg.format is ssh but user.signingkey is neither a readable" \
+             "public-key file nor an inline key: $KEY" ;;
+      esac
+    fi
+    # GitHub shows a signature as Verified only if the key is registered as a
+    # *signing* key -- an authentication key of the same value does not count.
+    ;;
+  ""|openpgp)
+    if command -v gpg >/dev/null 2>&1; then
+      if ! gpg --list-secret-keys "$KEY" >/dev/null 2>&1; then
+        fail "configured signing key '$KEY' has no secret key in this keyring." \
+          "The commit would fail to sign. Import the key, point user.signingkey" \
+          "at one gpg holds, or switch to SSH signing:" \
+          "  gpg --list-secret-keys --keyid-format=long" \
+          "  git config --local gpg.format ssh"
+      fi
+    else
+      fail "gpg is not installed, so commits cannot be signed." \
+        "Install it, or sign with SSH instead:" \
+        "  git config --local gpg.format ssh" \
+        "  git config --local user.signingkey ~/.ssh/<key>.pub"
+    fi
+    ;;
+  *)
+    fail "unsupported gpg.format '$FORMAT' — use 'ssh' or 'openpgp'." ;;
+esac
 
 # --- Mandatory Apache 2.0 / ROBOTIS AI licence header on every source file ---
 HEADER_CHECK="claude-harness/scripts/check_license_header.py"
