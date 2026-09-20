@@ -1,6 +1,6 @@
 # skills/ — curated index (by scope)
 
-> The active skill library (68 skills) organized under the harness's scopes
+> The active skill library (72 skills) organized under the harness's scopes
 > (`scopes/<domain>/AGENTS.md`) so routing actually reaches the right skill, and
 > flags consolidation candidates per the action ladder (`skills/README.md`).
 > `registry/skills.yaml` is the machine index; this is the human/routing map.
@@ -15,6 +15,20 @@ Legend: **▶ orchestrator** (chains other skills) · ⚑ consolidation candidat
   `.c/.h/.cpp/.hpp/.py/.js/.ts/.css/.html` file or ROS 2 package file. Also
   fires on the file via `.claude/rules/robotis-style.md`. References cover C++
   (Rev 35), C (Rev 18), Python (Rev 18), ROS (Rev 10), JavaScript (Rev 9).
+
+## coding — simplicity  → `scopes/coding/`
+Vendored from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)
+(MIT), unmodified. Provenance and what was deliberately left behind:
+`skills/ponytail/UPSTREAM.md`.
+- `ponytail` — the laziest solution that actually works: YAGNI → reuse → stdlib
+  → native → one line → minimum. Levels `lite` / `full` / `ultra`.
+- `ponytail-review` — over-engineering review of a **diff**: what to delete.
+- `ponytail-audit` — the same over the **whole repo**, ranked.
+- `ponytail-debt` — harvests the `ponytail:` shortcut comments the core skill
+  leaves behind into a debt ledger.
+
+> Complements rather than duplicates the harness: the harness decides whether a
+> claim is **earned**, ponytail decides whether the code should **exist**.
 
 ## math — theory, proof, formalization  → `scopes/math/`
 - `proof-checker` — verify/fix a LaTeX proof, find gaps.

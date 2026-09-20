@@ -243,6 +243,41 @@ the switcher.
 sync, so a change to one that skips the other leaves the repository documented
 two different ways.
 
+### Follow-up: ponytail vendored (4 of 6), and a budget guard that bit
+
+Vendored `ponytail` from DietrichGebert/ponytail (MIT, 142k stars) — YAGNI and
+anti-over-engineering. Four of the six skills: `ponytail`, `-review`, `-audit`,
+`-debt`. Provenance and the reasoning in `skills/ponytail/UPSTREAM.md`.
+
+Two were left behind on grounds, not taste. **`ponytail-gain`** renders
+upstream's own published benchmark medians ("lines of code ▼ 80–94%") as a
+scoreboard; those were not measured on this codebase, and shipping a skill that
+prints them as fact is what `kernel/verification_authority.md` exists to
+prevent. **`ponytail-help`** is a reference card for `/ponytail-*` slash
+commands this deployment does not install. The JS hooks were left too — this
+harness already has a seven-hook layer, and a second one deciding when a mode is
+active would leave two things fighting over one job.
+
+**The context-budget test caught the real cost.** Skill frontmatter is injected
+every session, and four more descriptions took it from 26.8 KB to 29.1 KB
+against a 28 KB ceiling. The ceiling's own comment says it exists so that
+"a large addition to the always-on surface is a decision someone makes" — so
+raising it to pass would have defeated the guard. Resolved the way this library
+already does it (`evaluation/skill_triggers.py`): mechanism moved into the
+bodies, **every trigger phrase kept**. Now 27.6 KB.
+
+That run also surfaced a defect of my own: **`robotis-style` had been over its
+per-skill trigger budget since it was written**, because I never ran
+`skill_triggers.py` after adding it. Fixed in the same pass.
+
+The one divergence from upstream is the `description:` frontmatter, recorded in
+`UPSTREAM.md` — the bodies are verbatim.
+
+**Open decision:** upstream's description says "use on ANY coding task" and the
+skill declares itself persistent. Left as shipped. If the team does not want it
+engaging by default, the lever is `disable-model-invocation`, which keeps
+`/ponytail` working while stopping it selecting itself.
+
 ### Open, not blocking
 
 - `bootstrap.sh` has been exercised against a scratch workspace but not against

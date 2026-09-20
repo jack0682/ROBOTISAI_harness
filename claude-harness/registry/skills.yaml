@@ -256,6 +256,18 @@ skills:
 - name: pixel-art
   path: _archive/skills/pixel-art
   status: archived
+- name: ponytail
+  path: skills/ponytail
+  status: active
+- name: ponytail-audit
+  path: skills/ponytail-audit
+  status: active
+- name: ponytail-debt
+  path: skills/ponytail-debt
+  status: active
+- name: ponytail-review
+  path: skills/ponytail-review
+  status: active
 - name: pptx
   path: _archive/skills/pptx
   status: archived

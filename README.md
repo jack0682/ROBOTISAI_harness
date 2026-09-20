@@ -11,7 +11,7 @@ Coding style, commit policy and working method — *enforced*, not suggested.
 [![Claude Code](https://img.shields.io/badge/Claude_Code-plugin-D97757.svg?style=flat-square)](https://claude.com/claude-code)
 [![Style Guide](https://img.shields.io/badge/style-ROBOTIS_C%2B%2B_%7C_C_%7C_Python_%7C_ROS_%7C_JS-2C8EBB.svg?style=flat-square)](claude-harness/skills/robotis-style/)
 
-[![Skills](https://img.shields.io/badge/skills-68-6E56CF.svg?style=flat-square)](claude-harness/skills/INDEX.md)
+[![Skills](https://img.shields.io/badge/skills-72-6E56CF.svg?style=flat-square)](claude-harness/skills/INDEX.md)
 [![Hooks](https://img.shields.io/badge/hooks-7_enforcing-1A7F37.svg?style=flat-square)](claude-harness/scripts/hooks/)
 [![Tests](https://img.shields.io/badge/tests-156_passing-1A7F37.svg?style=flat-square)](claude-harness/tests/)
 [![Commits](https://img.shields.io/badge/commits-GPG_%2B_DCO_required-1A7F37.svg?style=flat-square)](claude-harness/protocols/commit_policy.md)
@@ -48,7 +48,7 @@ in every session, and a rule you forget is a rule that does not exist.
 | **Long work interrupted** | nothing survives | **a session cannot end without a checkpoint** |
 | **Commit quality** | varies per person | sign-off + GPG + header + subject, all checked |
 | **AI co-author trailers** | tools add them by default | **blocked** — a tool is not an author |
-| **Repeated work** | new prompt every time | **68 skills** selected automatically |
+| **Repeated work** | new prompt every time | **72 skills** selected automatically |
 | **Team consistency** | everyone does it their own way | one set of rules for everyone |
 
 ### Concretely
@@ -193,12 +193,28 @@ the right rules and skills.
 
 ## 5. What skills are available
 
-**68 skills** are installed. You do not call them directly — the right one is
+**72 skills** are installed. You do not call them directly — the right one is
 pulled in based on what you ask. But **you can only ask for what you know
 exists**, so here they are.
 
 Full list: [`claude-harness/skills/INDEX.md`](claude-harness/skills/INDEX.md)
 · ▶ marks an **orchestrator** that chains other skills.
+
+### 🪶 Coding — simplicity
+
+Vendored from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)
+(MIT). What was taken and what was deliberately left behind:
+[`skills/ponytail/UPSTREAM.md`](claude-harness/skills/ponytail/UPSTREAM.md).
+
+| Skill | What it does |
+|---|---|
+| `ponytail` | The laziest solution that actually works — YAGNI → reuse → stdlib → native → one line → minimum. Levels `lite` / `full` / `ultra` |
+| `ponytail-review` | Reviews a **diff** for over-engineering: what to delete |
+| `ponytail-audit` | The same over the **whole repo**, ranked |
+| `ponytail-debt` | Harvests the `ponytail:` shortcut comments into a debt ledger |
+
+> It complements the harness rather than repeating it: **the harness decides
+> whether a claim is earned, ponytail decides whether the code should exist.**
 
 ### 🔧 Coding — mandatory
 
@@ -509,7 +525,7 @@ Worth knowing inside `claude-harness/`:
 | Path | What |
 |---|---|
 | `KERNEL.md`, `ROUTING.md` | the always-on spine |
-| `skills/INDEX.md` | **all 68 skills** |
+| `skills/INDEX.md` | **all 72 skills** |
 | `skills/robotis-style/` | the ROBOTIS style guide, per language |
 | `protocols/commit_policy.md` | the commit policy in full |
 | `scopes/` | 7 domain rule sets |

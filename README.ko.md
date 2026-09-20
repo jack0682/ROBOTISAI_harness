@@ -11,7 +11,7 @@
 [![Claude Code](https://img.shields.io/badge/Claude_Code-plugin-D97757.svg?style=flat-square)](https://claude.com/claude-code)
 [![Style Guide](https://img.shields.io/badge/style-ROBOTIS_C%2B%2B_%7C_C_%7C_Python_%7C_ROS_%7C_JS-2C8EBB.svg?style=flat-square)](claude-harness/skills/robotis-style/)
 
-[![Skills](https://img.shields.io/badge/skills-68-6E56CF.svg?style=flat-square)](claude-harness/skills/INDEX.md)
+[![Skills](https://img.shields.io/badge/skills-72-6E56CF.svg?style=flat-square)](claude-harness/skills/INDEX.md)
 [![Hooks](https://img.shields.io/badge/hooks-7_enforcing-1A7F37.svg?style=flat-square)](claude-harness/scripts/hooks/)
 [![Tests](https://img.shields.io/badge/tests-156_passing-1A7F37.svg?style=flat-square)](claude-harness/tests/)
 [![Commits](https://img.shields.io/badge/commits-GPG_%2B_DCO_required-1A7F37.svg?style=flat-square)](claude-harness/protocols/commit_policy.md)
@@ -47,7 +47,7 @@ Claude Code는 이미 충분히 좋습니다. 문제는 **팀이 여럿일 때**
 | **긴 작업 중단** | 아무것도 안 남고 끝남 | 체크포인트 없이 **세션을 끝낼 수 없음** |
 | **커밋 품질** | 사람마다 제각각 | Sign-off + GPG + 헤더 + 제목 규칙 자동 검사 |
 | **AI 공동저자 표기** | 도구가 자동으로 붙임 | **차단됨** (도구는 저자가 아님) |
-| **반복 작업** | 매번 프롬프트 새로 작성 | 상황에 맞는 **스킬 68개**가 자동 선택 |
+| **반복 작업** | 매번 프롬프트 새로 작성 | 상황에 맞는 **스킬 72개**가 자동 선택 |
 | **팀 일관성** | 각자 다른 방식 | 전원 동일한 규칙 |
 
 ### 구체적으로 뭐가 달라지나
@@ -184,11 +184,27 @@ claude
 
 ## 5. 쓸 수 있는 스킬들
 
-**스킬 68개**가 들어있습니다. 직접 부를 필요는 없습니다 — 요청 내용을 보고 맞는 걸
+**스킬 72개**가 들어있습니다. 직접 부를 필요는 없습니다 — 요청 내용을 보고 맞는 걸
 자동으로 가져옵니다. 다만 **뭐가 가능한지 알아야 시킬 수 있으므로** 정리합니다.
 
 전체 목록: [`claude-harness/skills/INDEX.md`](claude-harness/skills/INDEX.md)
 · ▶ 표시는 다른 스킬들을 엮어서 돌리는 **오케스트레이터**입니다.
+
+### 🪶 코딩 — 단순함
+
+[DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) 에서
+가져왔습니다(MIT). 뭘 가져오고 뭘 일부러 뺐는지:
+[`skills/ponytail/UPSTREAM.md`](claude-harness/skills/ponytail/UPSTREAM.md).
+
+| 스킬 | 하는 일 |
+|---|---|
+| `ponytail` | 실제로 작동하는 가장 게으른 해법 — YAGNI → 재사용 → 표준 라이브러리 → 네이티브 → 한 줄 → 최소. `lite` / `full` / `ultra` 단계 |
+| `ponytail-review` | **diff**를 과설계 관점으로만 리뷰 — 뭘 지울지 |
+| `ponytail-audit` | 같은 걸 **저장소 전체**에 대해, 순위를 매겨서 |
+| `ponytail-debt` | 코드에 남은 `ponytail:` 단축 주석을 부채 장부로 수확 |
+
+> 하네스와 겹치지 않고 보완합니다: **하네스는 주장이 입증됐는지를, ponytail은
+> 그 코드가 존재해야 하는지를 판단합니다.**
 
 ### 🔧 코딩 — 필수 적용
 
@@ -492,7 +508,7 @@ gpg --full-generate-key     # RSA 4096, 회사 이메일
 | 경로 | 내용 |
 |---|---|
 | `KERNEL.md`, `ROUTING.md` | 항상 로드되는 핵심 |
-| `skills/INDEX.md` | **스킬 68개 전체 목록** |
+| `skills/INDEX.md` | **스킬 72개 전체 목록** |
 | `skills/robotis-style/` | ROBOTIS 스타일 가이드 (언어별) |
 | `protocols/commit_policy.md` | 커밋 규칙 전문 |
 | `scopes/` | 도메인별 규칙 7개 |

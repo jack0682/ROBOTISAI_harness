@@ -1,6 +1,6 @@
 ---
 name: robotis-style
-description: "MANDATORY for any ROBOTIS code. The ROBOTIS Programming Style Guides (C++ Rev35, C Rev18, Python Rev18, ROS Rev10, JavaScript Rev9) — naming, formatting, comments, headers, file layout, lint. Load BEFORE writing, editing or reviewing any .c/.h/.cpp/.hpp/.py/.js/.ts/.jsx/.tsx/.css/.html file, any ROS 2 package file (package.xml, CMakeLists.txt, setup.py, .msg/.srv/.action/.launch.py), or when the user says \"스타일 가이드\", \"코딩 컨벤션\", \"style guide\", \"coding standard\", \"코드 리뷰\", \"lint\", \"네이밍\", \"naming convention\"."
+description: MANDATORY ROBOTIS Programming Style Guide for C, C++, Python, ROS 2 and JavaScript. Load before writing, editing or reviewing any source or ROS 2 package file, or on "스타일 가이드", "코딩 컨벤션", "style guide", "coding standard", "코드 리뷰", "lint", "네이밍", "naming convention".
 ---
 
 # ROBOTIS Programming Style Guide
