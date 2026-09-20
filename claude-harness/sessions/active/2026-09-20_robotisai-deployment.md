@@ -381,6 +381,48 @@ encoder it validated a parameter that does not enter the arithmetic.
 sample per arm, one model, all Python. It shows the mechanism is real and names
 what it buys; it does not measure how often it pays.
 
+### Follow-up: cleanup — removed what pointed at things that are not here
+
+An audit for leftovers from the deployment this was derived from. Two of the
+first three hits were false positives and were left alone: `tmux` in
+`loop_and_distillation_design.md` is ordinary "run it detached" advice, not the
+co-work runtime, and the changelog turned out to be 186 lines of which only 5
+concerned absent software — not the wholesale removal a glance at its first
+screen suggested.
+
+What was actually wrong, and is now fixed:
+
+- **`registry/skills.yaml` carried 40 `archived` rows** pointing at an
+  `archive/retired-skills` branch that does not exist in this repository, plus
+  a `git restore --source=...` command in its header that fails when followed.
+  Removed; the header now says why. The registry's 72 active rows match the 72
+  directories exactly.
+- **Two conflicting install flows were documented.** The root `README.md` says
+  `bootstrap.sh`; `claude-harness/README.md` and `HARNESS.md` still described
+  cloning *into* the workspace and running `detach_for_workspace.py --apply`.
+  A team member opening the inner README got the wrong instructions. Both now
+  name `bootstrap.sh` as the documented path and keep `detach_for_workspace.py`
+  for the clone-in-place topology, which is still real.
+- **`skills/INDEX.md`** advertised `_archive/skills/` and a consolidation log
+  referencing skills that are not here. Replaced with an "Adding a skill"
+  section that says what a new skill costs — every description is injected
+  every session — and which two checks to run first.
+- **`docs/changelog.md`**: the co-work runtime section (29 lines) describes
+  software absent from this repository. Removed, with a note on the lineage.
+- `docs/deployment.md` referenced `shared/` and `.tmux-panes.bak.*`.
+
+`gemini-review` was **kept**: a skill routes to it and documents a graceful
+fallback when it is not installed. Being unwired is not the same as being dead.
+
+One test was coupled to the mess rather than to an invariant —
+`test_the_real_harness_validates_with_the_archive_absent` asserted the live
+tree *had* archived rows. The invariant (a row pointing nowhere is fine when
+archived, a failure when active) moved to a fixture, and two stronger checks
+replaced it: every active row resolves, and the validator stays clean. 164 →
+166 tests.
+
+`backup/pre-resign` deleted now that all commits verify.
+
 ### Open, not blocking
 
 - `bootstrap.sh` has been exercised against a scratch workspace but not against

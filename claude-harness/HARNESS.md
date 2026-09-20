@@ -99,12 +99,15 @@ Regenerate the bridge: `python3 scripts/install_bridge.py`. Validate structure:
 `python3 scripts/validate_harness.py`. Distillation review at session close:
 `python3 scripts/distill_session.py` (`modes/memory.md`).
 
-**Template adoption.** This harness is a Claude-only template meant to be cloned
-into a workspace. After cloning, run `python3 scripts/detach_for_workspace.py
---apply` to sever the template's git origin (removing the clone's `.git`),
-regenerate the bridge into the workspace, and validate — the harness then governs
-that workspace with no dependency on the template. Dry-run is the default; run it
-in the clone, never in the source template.
+**Template adoption.** This harness is a template dropped into the workspace
+that holds the actual work. The documented path is `./bootstrap.sh <workspace>`
+from the repository root: it copies the harness in, generates the bridge, wires
+the commit gates, severs the template remote and validates. The root
+`README.md` walks through it.
+
+`scripts/detach_for_workspace.py --apply` covers the other topology — a
+template cloned *directly into* the workspace — by severing that clone's `.git`
+in place. Dry-run is the default; run it in the clone, never in the source.
 
 **Standing autonomy mandate.** Whenever the harness is loaded, every session runs
 under `kernel/autonomy_mandate.md` — a standing authorization to work at maximum

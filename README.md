@@ -18,7 +18,7 @@ Coding style, commit policy and working method — *enforced*, not suggested.
 
 [![Skills](https://img.shields.io/badge/skills-72-6E56CF?logo=claude&logoColor=white)](claude-harness/skills/INDEX.md)
 [![Hooks](https://img.shields.io/badge/hooks-7_enforcing-1A7F37?logo=githubactions&logoColor=white)](claude-harness/scripts/hooks/)
-[![Tests](https://img.shields.io/badge/tests-164_passing-1A7F37?logo=pytest&logoColor=white)](claude-harness/tests/)
+[![Tests](https://img.shields.io/badge/tests-166_passing-1A7F37?logo=pytest&logoColor=white)](claude-harness/tests/)
 [![Commits](https://img.shields.io/badge/commits-GPG_%2B_DCO-1A7F37?logo=gnuprivacyguard&logoColor=white)](claude-harness/protocols/commit_policy.md)
 
 **English** · [한국어](README.ko.md)
@@ -546,7 +546,7 @@ Worth knowing inside `claude-harness/`:
 | `projects/` | your project — goal, constraints, glossary |
 | `sessions/` | work history. The next session resumes from here |
 | `scripts/hooks/` | the 7 enforcing hooks |
-| `tests/` | 164 tests |
+| `tests/` | 166 tests |
 
 ---
 

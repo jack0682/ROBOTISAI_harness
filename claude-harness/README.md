@@ -100,15 +100,18 @@ This harness is a **Claude-only template**: clone it into a workspace, sever the
 template's git so the clone stops tracking the origin, and use it as that
 workspace's convention layer.
 
-```bash
-git clone <this-template> my-workspace && cd my-workspace
-# preview what will change (nothing is touched):
-python3 claude-harness/scripts/detach_for_workspace.py
-# sever the template git + (re)wire the bridge into this workspace:
-python3 claude-harness/scripts/detach_for_workspace.py --apply [--clean-sessions] [--git-init]
-# then fill the project overlay — the /harness-init command, or directly:
-python3 claude-harness/scripts/new_project.py <name>
+```sh
+# From the repository root, install into the workspace that holds your work:
+./bootstrap.sh ~/my_project --fresh
 ```
+
+`bootstrap.sh` is the documented path: it copies the harness in, generates the
+bridge, wires the commit gates, severs the template remote and validates. See
+the root `README.md`.
+
+`scripts/detach_for_workspace.py` remains for the other topology — when the
+template was cloned *directly into* the workspace rather than installed from
+outside — and severs that clone's `.git` in place. Dry-run is the default.
 
 `detach_for_workspace.py` removes the clone's `.git` (killing the dependency on
 the template origin), regenerates the bridge, and validates. Run it **in the

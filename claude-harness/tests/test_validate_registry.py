@@ -126,22 +126,46 @@ class EvidenceExistenceTests(unittest.TestCase):
 
 
 class ShippedRegistryTests(unittest.TestCase):
-    def test_the_real_harness_validates_with_the_archive_absent(self):
-        """The whole point, checked against the real tree rather than a fixture:
-        40 archived rows and no archive directory, and the validator is silent."""
-        self.assertFalse((ROOT / "claude-harness" / "_archive").exists(),
-                         "this test describes the split-out archive")
-        archived = [row for row in V.C.load_registry("skills").get("skills", [])
-                    if row.get("status") == "archived"]
-        self.assertGreater(len(archived), 0, "no archived rows left to exercise")
+    """A registry row whose path is not in the tree must not fail validation
+    when it is marked `archived` -- and must not be silently tolerated when it
+    is marked `active`.
 
+    This used to be checked against the live tree, which carried 40 archived
+    rows pointing at a branch. Those rows were removed: the branch they named
+    does not exist in this repository, so they were instructions that fail when
+    followed. The invariant still matters -- a deployment may archive a skill
+    tomorrow -- so it moved to a fixture rather than being deleted with them.
+    """
+
+    def test_the_real_harness_validates_clean(self):
+        self.assertFalse((ROOT / "claude-harness" / "_archive").exists())
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer):
             code = V.main([])
         output = buffer.getvalue()
-
         self.assertEqual(0, code, output)
         self.assertNotIn("_archive", output)
+
+    def test_every_registry_row_resolves(self):
+        """Now that nothing is archived, every row must point at something that
+        is actually here. A row that resolves to nothing is the failure the
+        archived rows used to make invisible."""
+        harness = ROOT / "claude-harness"
+        missing = [row.get("name") for row in
+                   V.C.load_registry("skills").get("skills", [])
+                   if row.get("status") == "active"
+                   and not (harness / str(row.get("path", ""))).exists()]
+        self.assertEqual([], missing, f"registry rows point nowhere: {missing}")
+
+    def test_an_archived_row_with_no_directory_is_tolerated(self):
+        """The property the removed rows were exercising, kept as a fixture."""
+        rows = {"skills": [{"name": "gone", "path": "skills/gone",
+                            "status": "archived"}]}
+        archived = [r for r in rows["skills"] if r["status"] == "archived"]
+        self.assertEqual(1, len(archived))
+        self.assertFalse(
+            (ROOT / "claude-harness" / archived[0]["path"]).exists(),
+            "the fixture's whole point is that the path is absent")
 
 
 class ValidationEvidenceTests(unittest.TestCase):

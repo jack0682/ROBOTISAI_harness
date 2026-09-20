@@ -1,36 +1,12 @@
 # Changelog
 
+> History of the harness layer. Entries before 2026-09-20 belong to the
+> upstream deployment this template was derived from; a section covering a
+> co-work tmux runtime was dropped because that component is not in this
+> repository.
+
 ## 0.3.0 — the loop stops instead of spinning; deployments can be updated (2026-09-10)
 
-
-### co-work runtime
-- **A state for "waiting on a person."** A pane holding a confirmation dialog
-  fell through to a generic `TmuxError`, so the loop treated the one condition
-  retrying cannot resolve as the one thing retrying is for. 6,178 of the 6,226
-  ERROR lines in a two-week supervisor log were that, retried at the raw
-  2-second poll, with no notification raised. `BlockedOnHuman` is reported once,
-  marked on the heartbeat with its reason and start time, and waited on. It is
-  deliberately neither an error nor progress, so real failures stay visible and
-  nothing reads the stall as health.
-- **`healthy` cannot be true while blocked**, and `cowork validate` fails a
-  heartbeat that claims otherwise — the contradiction that let this run unseen.
-- **A time bound on silence.** `InputNotReady` is swallowed because a busy agent
-  frees itself in seconds; that reasoning expires when a TUI redesign makes every
-  pane look permanently busy. `StalledNotReady` surfaces it.
-- **The readiness contract is data.** `cowork/tmux/readiness.json`, versioned,
-  with the previous in-code values as the fallback every malformed shape lands on.
-- **Delivery outcomes are facts on disk** (`shared/.delivery-log`), one row per
-  change of outcome, so "never attempted" and "attempted and failed, for this
-  reason" survive state.json dropping its history.
-- **Overflowed history is kept** (`shared/.history-archive`) instead of leaving
-  `history_dropped` as a count of things nobody can look at. A live state
-  reported 88 discarded task records.
-- **Reads stop committing revisions.** `status`, `whose-turn`, `readiness` and
-  `watch` no longer reconcile; neither do the supervisor-internal helpers whose
-  pass already did, which removed several redundant inbox scans per poll.
-- **A dead supervisor's artifacts are reaped**, except lock files (`flock`
-  targets whose presence means nothing) and the pane map (the only record of the
-  previous generation).
 
 ### distribution
 - **`upgrade_harness.py` works and is safe.** It synced 17 files where 30 had

@@ -14,22 +14,14 @@
 #
 # Author: Jaehong Oh <jaehongoh1554@gmail.com>
 
-# Skill registry.
+# Skill registry — the machine index. `skills/INDEX.md` is the human map.
 #
-# `status: archived` rows describe skills that are deliberately not in this
-# tree. The archive was 988 of 1,770 tracked files and 26 MB of 41, duplicated
-# across the two harnesses and referenced by nothing, so it lives on the
-# `archive/retired-skills` branch instead of in every clone. The rows stay here
-# because the record of what was retired -- and what superseded it -- is worth
-# more than the files.
-#
-#   git restore --source=archive/retired-skills --worktree -- claude-harness/_archive
-#
-# restores it into the working tree only. Use --worktree, not a plain
-# `git checkout <branch> -- <path>`: that stages the files too, and a staged
-# file is not covered by .gitignore, so the restore itself would dirty the
-# tree it was meant to keep clean.
-# Index of skill modules. Updated by scripts/new_skill.py.
+# Every row here is present in this tree. The upstream deployment this
+# template came from also carried `status: archived` rows pointing at an
+# `archive/retired-skills` branch; that branch does not exist in this
+# repository, so the rows were removed rather than left as instructions that
+# fail when followed.
+
 skills:
 - name: _skill_template
   path: skills/_skill_template
@@ -40,15 +32,6 @@ skills:
 - name: agent-browser
   path: skills/agent-browser
   status: active
-- name: agents-sdk
-  path: _archive/skills/agents-sdk
-  status: archived
-- name: algorithmic-art
-  path: _archive/skills/algorithmic-art
-  status: archived
-- name: alphaxiv
-  path: _archive/skills/alphaxiv
-  status: archived
 - name: analyze-results
   path: skills/analyze-results
   status: active
@@ -61,47 +44,15 @@ skills:
 - name: auto-review-loop
   path: skills/auto-review-loop
   status: active
-- name: auto-review-loop-llm
-  path: _archive/skills/auto-review-loop-llm
-  status: archived
-  superseded_by: auto-review-loop
-- name: auto-review-loop-minimax
-  path: _archive/skills/auto-review-loop-minimax
-  status: archived
-  superseded_by: auto-review-loop
-- name: brand-guidelines
-  path: _archive/skills/brand-guidelines
-  status: archived
-- name: canvas-design
-  path: _archive/skills/canvas-design
-  status: archived
 - name: citation-audit
   path: skills/citation-audit
   status: active
-- name: claims-drafting
-  path: _archive/skills/claims-drafting
-  status: archived
-- name: comm-lit-review
-  path: _archive/skills/comm-lit-review
-  status: archived
 - name: csv-data-summarizer
   path: skills/csv-data-summarizer
   status: active
-- name: deepxiv
-  path: _archive/skills/deepxiv
-  status: archived
 - name: doc-coauthoring
   path: skills/doc-coauthoring
   status: active
-- name: docx
-  path: _archive/skills/docx
-  status: archived
-- name: dse-loop
-  path: _archive/skills/dse-loop
-  status: archived
-- name: embodiment-description
-  path: _archive/skills/embodiment-description
-  status: archived
 - name: exa-search
   path: skills/exa-search
   status: active
@@ -120,9 +71,6 @@ skills:
 - name: feishu-notify
   path: skills/feishu-notify
   status: active
-- name: figure-description
-  path: _archive/skills/figure-description
-  status: archived
 - name: figure-spec
   path: skills/figure-spec
   status: active
@@ -135,12 +83,6 @@ skills:
 - name: formula-derivation
   path: skills/formula-derivation
   status: active
-- name: frontend-design
-  path: _archive/skills/frontend-design
-  status: archived
-- name: gemini-search
-  path: _archive/skills/gemini-search
-  status: archived
 - name: grant-proposal
   path: skills/grant-proposal
   status: active
@@ -162,18 +104,6 @@ skills:
 - name: idea-discovery-robot
   path: skills/idea-discovery-robot
   status: active
-- name: internal-comms
-  path: _archive/skills/internal-comms
-  status: archived
-- name: interview-cheatsheet
-  path: _archive/skills/interview-cheatsheet
-  status: archived
-- name: invention-structuring
-  path: _archive/skills/invention-structuring
-  status: archived
-- name: jurisdiction-format
-  path: _archive/skills/jurisdiction-format
-  status: archived
 - name: kill-argument
   path: skills/kill-argument
   status: active
@@ -201,9 +131,6 @@ skills:
 - name: novelty-check
   path: skills/novelty-check
   status: active
-- name: openalex
-  path: _archive/skills/openalex
-  status: archived
 - name: overleaf-sync
   path: skills/overleaf-sync
   status: active
@@ -219,43 +146,18 @@ skills:
 - name: paper-illustration
   path: skills/paper-illustration
   status: active
-- name: paper-illustration-image2
-  path: _archive/skills/paper-illustration-image2
-  status: archived
-  superseded_by: paper-illustration
 - name: paper-plan
   path: skills/paper-plan
   status: active
-- name: paper-poster
-  path: _archive/skills/paper-poster
-  status: archived
-- name: paper-slides
-  path: _archive/skills/paper-slides
-  status: archived
-- name: paper-talk
-  path: _archive/skills/paper-talk
-  status: archived
 - name: paper-write
   path: skills/paper-write
   status: active
 - name: paper-writing
   path: skills/paper-writing
   status: active
-- name: patent-novelty-check
-  path: _archive/skills/patent-novelty-check
-  status: archived
-- name: patent-pipeline
-  path: _archive/skills/patent-pipeline
-  status: archived
-- name: patent-review
-  path: _archive/skills/patent-review
-  status: archived
 - name: pdf
   path: skills/pdf
   status: active
-- name: pixel-art
-  path: _archive/skills/pixel-art
-  status: archived
 - name: ponytail
   path: skills/ponytail
   status: active
@@ -268,15 +170,6 @@ skills:
 - name: ponytail-review
   path: skills/ponytail-review
   status: active
-- name: pptx
-  path: _archive/skills/pptx
-  status: archived
-- name: prd
-  path: _archive/skills/prd
-  status: archived
-- name: prior-art-search
-  path: _archive/skills/prior-art-search
-  status: archived
 - name: proof-checker
   path: skills/proof-checker
   status: active
@@ -286,9 +179,6 @@ skills:
 - name: qzcli
   path: skills/qzcli
   status: active
-- name: ralph
-  path: _archive/skills/ralph
-  status: archived
 - name: rebuttal
   path: skills/rebuttal
   status: active
@@ -337,42 +227,21 @@ skills:
 - name: skill-creator
   path: skills/skill-creator
   status: active
-- name: slack-gif-creator
-  path: _archive/skills/slack-gif-creator
-  status: archived
-- name: slides-polish
-  path: _archive/skills/slides-polish
-  status: archived
-- name: specification-writing
-  path: _archive/skills/specification-writing
-  status: archived
 - name: system-profile
   path: skills/system-profile
   status: active
-- name: theme-factory
-  path: _archive/skills/theme-factory
-  status: archived
 - name: training-check
   path: skills/training-check
   status: active
 - name: vast-gpu
   path: skills/vast-gpu
   status: active
-- name: web-artifacts-builder
-  path: _archive/skills/web-artifacts-builder
-  status: archived
-- name: webapp-testing
-  path: _archive/skills/webapp-testing
-  status: archived
 - name: wiki-enrich
   path: skills/wiki-enrich
   status: active
 - name: writing-systems-papers
   path: skills/writing-systems-papers
   status: active
-- name: xlsx
-  path: _archive/skills/xlsx
-  status: archived
 - name: shared-references
   path: skills/shared-references
   status: support

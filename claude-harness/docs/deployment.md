@@ -9,7 +9,7 @@
 ```
 
 Distribution was a hand-rolled file sync. Every copy goes dirty — runtime state
-(`sessions/`, `shared/`, `.tmux-panes.bak.*`) is written into the governance
+(`sessions/`, `memory/`) is written into the governance
 tree and is not gitignored — and a dirty copy cannot be `git pull`ed. So copies
 were made by hand, and seven of them now have no git at all.
 

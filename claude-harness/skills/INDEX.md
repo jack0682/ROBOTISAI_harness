@@ -5,7 +5,7 @@
 > flags consolidation candidates per the action ladder (`skills/README.md`).
 > `registry/skills.yaml` is the machine index; this is the human/routing map.
 > Prefer an existing skill over a new one; prefer patching an umbrella over
-> adding a sibling. Retired skills live in `_archive/skills/` (out of force).
+> adding a sibling.
 
 Legend: **▶ orchestrator** (chains other skills) · ⚑ consolidation candidate.
 
@@ -53,7 +53,7 @@ archived), `figure-spec`, `mermaid-diagram`, `overleaf-sync`, `writing-systems-p
 **Claim/citation audit:** `citation-audit`, `paper-claim-audit`.
 **Review & resubmit loops:** `auto-review-loop` ▶ (umbrella — selectable
 `REVIEWER_BACKEND`: codex / manual / llm / minimax; the former `-llm` and
-`-minimax` skills are merged into it and archived to `_archive/skills/`),
+`-minimax` variants are merged into it),
 `auto-paper-improvement-loop` ▶, `rebuttal` ▶, `resubmit-pipeline` ▶.
 **Docs:** `pdf`, `doc-coauthoring`, `grant-proposal`.
 
@@ -74,41 +74,13 @@ archived), `figure-spec`, `mermaid-diagram`, `overleaf-sync`, `writing-systems-p
 
 ---
 
-## Archived families (2026-07-11 — moved to `_archive/skills/`, out of injection)
-Retired to shrink the per-session skill list to what this team's work actually uses
-(theory/robotics/research/experiments/writing). Reversible: move a dir back under
-`skills/` and set its registry entry to `active`.
+## Adding a skill
 
-- **Patent pipeline (10):** `patent-pipeline` ▶ + `invention-structuring`,
-  `claims-drafting`, `embodiment-description`, `figure-description`,
-  `specification-writing`, `jurisdiction-format`, `patent-novelty-check`,
-  `prior-art-search`, `patent-review`. *(out of scope: no patent work.)*
-- **Art/design/office (11):** `algorithmic-art`, `brand-guidelines`, `canvas-design`,
-  `pixel-art`, `frontend-design`, `web-artifacts-builder`, `theme-factory`,
-  `slack-gif-creator`, `docx`, `pptx`, `xlsx`.
-- **Talk/poster/slides (4):** `paper-talk` ▶, `paper-slides`, `slides-polish`,
-  `paper-poster`.
-- **Retrieval duplicates (5):** `alphaxiv`, `deepxiv`, `openalex`, `gemini-search`,
-  `comm-lit-review` (kept front-line: `arxiv`, `semantic-scholar`, `exa-search`).
-- **Foreign/misc (7):** `interview-cheatsheet`, `dse-loop` ▶, `ralph`, `prd`,
-  `internal-comms`, `agents-sdk`, `webapp-testing`.
+Prefer an existing skill over a new one; prefer patching an umbrella over
+adding a sibling (`skills/README.md`). The ▶ orchestrators are umbrellas —
+new work extends them.
 
-Also archived: the orphaned `codex-skills/` mirror tree (Codex/Gemini CLI skill
-packs, not wired into the CC bridge) → `_archive/codex-skills/`.
-
-## Consolidation candidates (action ladder)
-1. ✅ **DONE (2026-06-11)** — `auto-review-loop` × {base, -llm, -minimax} merged into
-   the `auto-review-loop` umbrella via a `REVIEWER_BACKEND` switch; the two variants
-   archived (`superseded_by: auto-review-loop`).
-2. ✅ **DONE (2026-06-11)** — `paper-illustration` + `paper-illustration-image2`
-   merged into the `paper-illustration` umbrella via an `IMAGE_BACKEND` switch.
-3. ✅ **DONE (2026-07-11)** — retrieval family consolidated to `arxiv` /
-   `semantic-scholar` / `exa-search`; `alphaxiv`/`deepxiv`/`openalex`/`gemini-search`/
-   `comm-lit-review` archived. `research-lit` remains the front-door.
-4. ✅ **DONE (2026-07-11)** — patent-specific docs (`patent-format-*`,
-   `patent-writing-principles`, `prior-art-databases`) archived to
-   `_archive/skills/shared-references-patent/`. *Still P2-pending:* clean stale
-   skill mentions (archived retrieval / `dse-loop` / `codex-skills`) in
-   `external-cadence.md` / `wiki-helper-resolution.md` / `integration-contract.md`.
-5. The remaining **▶ orchestrators** (`research-pipeline`, `paper-writing`, …) are
-   umbrellas — new work extends them, not adds siblings.
+Every description is injected into **every** session, so a new skill costs
+context on every run whether or not it fires. `tests/test_context_budget.py`
+holds the ceiling and `evaluation/skill_triggers.py` sets the per-skill
+description budget from its trigger count. Run both before adding one.
