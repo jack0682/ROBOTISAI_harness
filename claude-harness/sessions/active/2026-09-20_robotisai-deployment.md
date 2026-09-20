@@ -123,9 +123,20 @@ afterwards and is clean.
 
 ## Next Step
 
-The initial commit is done and pushed to
-`git@github.com:jack0682/ROBOTISAI_harness.git`, signed with GPG key
-`D2278D81EB1F721E` and carrying the DCO sign-off.
+Done and pushed. Initial commit **`36f8179`** — 393 files, 79,780 lines — on
+`main`, tracking `origin/main` at
+`git@github.com:jack0682/ROBOTISAI_harness.git`.
+
+| | |
+|---|---|
+| author | `Jaehong Oh <jaehongoh1554@gmail.com>` |
+| GPG | `G` — good signature, key `D2278D81EB1F721E` |
+| sign-off | present, matching the committer |
+| AI attribution | none — no `Co-authored-by`, no generated-with footer |
+
+The policy this session installed was applied to its own first commit: the
+commit was genuinely blocked until the user supplied the signing identity,
+and passed once it was given.
 
 Signing identity, set `--local` on this repository:
 
