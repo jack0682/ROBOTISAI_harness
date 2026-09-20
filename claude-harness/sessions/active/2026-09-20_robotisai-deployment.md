@@ -149,40 +149,38 @@ commit.gpgsign  true
 
 Next:
 
-1. **Signing moved from OpenPGP to SSH, and it is still `Unverified`.**
+1. **Settled: every commit is `Verified`. It was the wrong key all along.**
 
-   First finding: no commit was ever verified — all of them `verified=false`,
-   `reason=unknown_key` via the API. The OpenPGP key `D2278D81EB1F721E` signs
-   correctly locally but is not on the account.
+   The repository had been signing with OpenPGP key `D2278D81EB1F721E`, which
+   is valid locally but **is not the key on the account**. The account carries
+   `9C9FE74DE196CD5A` (uid `jaehongOh`, subkey `5D5483560B1D1913`) — the one
+   `~/.gitconfig` already pointed at. Every published commit therefore read
+   `unknown_key`: the signature was good, the reader had never seen the key.
 
-   Second finding, which changed the approach: the key the owner supplied
-   (`SHA256:yzgoKg8+...`) is an **SSH key**, not a GPG one — it matches
-   `~/.ssh/id_jack0682.pub`, ED25519. GitHub shows SSH keys by SHA256
-   fingerprint and GPG keys by hex id; they are different things and easy to
-   confuse.
+   Two detours on the way, both worth recording because each looked right:
 
-   So the repository now signs with SSH (`gpg.format=ssh`,
-   `user.signingkey=~/.ssh/id_jack0682.pub`), and `.githooks/pre-commit`
-   accepts either format — requiring OpenPGP forced a second credential on
-   anyone who already has an SSH key and no GPG key. Local verification passes
-   (`%G?` = `G`) once `gpg.ssh.allowedSignersFile` exists.
+   - The fingerprint supplied first (`SHA256:yzgoKg8+...`) is an **SSH** key
+     (`~/.ssh/id_jack0682.pub`, ED25519), not GPG. GitHub lists SSH keys by
+     SHA256 fingerprint and GPG keys by hex id, which makes them easy to swap.
+   - Switching to SSH signing did not help either, and **pushing** is what
+     established why rather than reasoning about it: an SSH *authentication*
+     key and an SSH *signing* key are separate registrations on GitHub, even
+     for the same key value.
 
-   **Third finding, established by pushing and asking the API rather than
-   assuming: GitHub still says `unknown_key`.** An SSH *authentication* key and
-   an SSH *signing* key are separate registrations, even for the same key
-   value. The public key has to be added again under
-   Settings → SSH and GPG keys → New SSH key with **Key type = Signing Key**:
+   Resolution: `user.signingkey = 9C9FE74DE196CD5A`, OpenPGP format. Proven on
+   one amended commit first (`verified=true, reason=valid`) before touching
+   anything else, then the whole history re-signed with
+   `git rebase --root --exec 'git commit --amend --no-edit -S'`.
 
-   ```
-   ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKF/Oz5kzcczKf9bu/c70EB0RrwzN27qnde2pWbgkycO
-   ```
+   **All 13 commits now verify.** The rewrite was a force-push of published
+   history, done only after the API showed **0 forks, 0 stars, 0 watchers and
+   0 clones** — nobody could be broken by it. `backup/pre-resign` holds the
+   previous state locally.
 
-   It could not be done from here — the `gh` token carries
-   `gist, read:org, repo, workflow`, and this needs `admin:ssh_signing_key`.
-
-   Once registered, **commits from `5f455ed` onward verify**; the ten before it
-   are OpenPGP-signed and stay `Unverified` unless history is rewritten, which
-   is a force-push and was not done unasked.
+   `.githooks/pre-commit` keeps its SSH-signing branch: a team member with an
+   SSH key and no GPG key should not be made to create a second credential.
+   What the detour taught is that they must register it as a **Signing Key**,
+   which the gate's comment now says.
 
 2. **Done:** repository is a template (`is_template: true`), public, with a
    description and 12 topics set via the API — it had neither before.
