@@ -278,6 +278,22 @@ skill declares itself persistent. Left as shipped. If the team does not want it
 engaging by default, the lever is `disable-model-invocation`, which keeps
 `/ponytail` working while stopping it selecting itself.
 
+### Follow-up: badges, verified rather than pasted
+
+The badge row was nine flat-square shields with no logos. Replaced with twelve
+in the default rounded style, each carrying its project's icon, grouped in
+three rows: identity and licence, the four language guides, then the counts.
+
+Every logo slug was checked before it went in — and the first check was wrong.
+Asking shields.io for a badge with a nonexistent logo returns a perfectly valid
+badge with the logo silently dropped, so "the request succeeded" proves
+nothing. The discriminator is the rendered **width**: a badge with a logo is
+17px wider than the same badge without one. Under that test `zzz-not-a-real-logo`
+fails and all twelve real slugs pass.
+
+The three numeric badges (72 skills, 7 hooks, 156 tests) were re-counted
+against the tree rather than carried forward.
+
 ### Open, not blocking
 
 - `bootstrap.sh` has been exercised against a scratch workspace but not against

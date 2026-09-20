@@ -6,16 +6,20 @@
 
 Coding style, commit policy and working method — *enforced*, not suggested.
 
-[![License](https://img.shields.io/badge/License-Apache_2.0-D22128.svg?style=flat-square)](LICENSE)
-[![Team](https://img.shields.io/badge/ROBOTIS-AI_Team-0B5FFF.svg?style=flat-square)](https://www.robotis.com)
-[![Claude Code](https://img.shields.io/badge/Claude_Code-plugin-D97757.svg?style=flat-square)](https://claude.com/claude-code)
-[![Style Guide](https://img.shields.io/badge/style-ROBOTIS_C%2B%2B_%7C_C_%7C_Python_%7C_ROS_%7C_JS-2C8EBB.svg?style=flat-square)](claude-harness/skills/robotis-style/)
+[![License](https://img.shields.io/badge/license-Apache_2.0-D22128?logo=apache&logoColor=white)](LICENSE)
+[![ROBOTIS AI](https://img.shields.io/badge/ROBOTIS-AI_Team-0B5FFF?logo=probot&logoColor=white)](https://www.robotis.com)
+[![Claude Code](https://img.shields.io/badge/Claude_Code-plugin-D97757?logo=claude&logoColor=white)](https://claude.com/claude-code)
+[![ROS 2](https://img.shields.io/badge/ROS_2-compliant-22314E?logo=ros&logoColor=white)](claude-harness/skills/robotis-style/references/ros.md)
 
-[![Skills](https://img.shields.io/badge/skills-72-6E56CF.svg?style=flat-square)](claude-harness/skills/INDEX.md)
-[![Hooks](https://img.shields.io/badge/hooks-7_enforcing-1A7F37.svg?style=flat-square)](claude-harness/scripts/hooks/)
-[![Tests](https://img.shields.io/badge/tests-156_passing-1A7F37.svg?style=flat-square)](claude-harness/tests/)
-[![Commits](https://img.shields.io/badge/commits-GPG_%2B_DCO_required-1A7F37.svg?style=flat-square)](claude-harness/protocols/commit_policy.md)
-[![ROS 2](https://img.shields.io/badge/ROS_2-compliant-22314E.svg?style=flat-square)](claude-harness/skills/robotis-style/references/ros.md)
+[![C++](https://img.shields.io/badge/C%2B%2B-Rev_35-00599C?logo=cplusplus&logoColor=white)](claude-harness/skills/robotis-style/references/cpp.md)
+[![C](https://img.shields.io/badge/C-Rev_18-A8B9CC?logo=c&logoColor=white)](claude-harness/skills/robotis-style/references/c.md)
+[![Python](https://img.shields.io/badge/Python-Rev_18-3776AB?logo=python&logoColor=white)](claude-harness/skills/robotis-style/references/python.md)
+[![JS / TS](https://img.shields.io/badge/JS_%2F_TS-Rev_9-F7DF1E?logo=javascript&logoColor=black)](claude-harness/skills/robotis-style/references/javascript.md)
+
+[![Skills](https://img.shields.io/badge/skills-72-6E56CF?logo=claude&logoColor=white)](claude-harness/skills/INDEX.md)
+[![Hooks](https://img.shields.io/badge/hooks-7_enforcing-1A7F37?logo=githubactions&logoColor=white)](claude-harness/scripts/hooks/)
+[![Tests](https://img.shields.io/badge/tests-156_passing-1A7F37?logo=pytest&logoColor=white)](claude-harness/tests/)
+[![Commits](https://img.shields.io/badge/commits-GPG_%2B_DCO-1A7F37?logo=gnuprivacyguard&logoColor=white)](claude-harness/protocols/commit_policy.md)
 
 **English** · [한국어](README.ko.md)
 
