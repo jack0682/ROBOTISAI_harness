@@ -54,3 +54,6 @@ commands:
   - name: checkpoint
     path: commands/checkpoint.md
     status: active
+  - name: harness
+    path: commands/harness.md
+    status: active

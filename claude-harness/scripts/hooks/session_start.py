@@ -161,16 +161,16 @@ def _first_run_notice(hdir):
     if not os.path.isfile(marker):
         return ""
     return (
-        f"[{hdir}] FIRST RUN — this workspace has not been analyzed yet.\n"
-        "Before any other work, run `/harness-init`: read the workspace as a "
-        "whole (what it is, its build/test entry points, its languages, its "
-        "existing conventions), register the project overlay, and record what "
-        "you found. Work done before that is work done blind.\n"
+        f"[{hdir}] FIRST RUN — this workspace has not been set up yet.\n"
+        "Tell the user to type **`/harness`**, or run it yourself if they have "
+        "already asked for something. It sets the signing identity (commits are "
+        "blocked until it exists), reads the workspace as a whole, and captures "
+        "what they actually want. Work done before that is work done blind.\n"
         "The harness's own upstream remote was removed by bootstrap on purpose "
         "— this copy is standalone and cannot push there, so do not try. Send "
         "harness improvements to the upstream repository directly.\n"
-        f"Clear this notice by deleting `{hdir}/.bootstrap-pending` once "
-        "`/harness-init` has completed.")
+        f"`/harness` clears this notice when setup completes (it deletes "
+        f"`{hdir}/.bootstrap-pending`).")
 
 
 def main():

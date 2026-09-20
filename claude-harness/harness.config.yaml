@@ -119,7 +119,14 @@ bridge:
   # bridge root. Claude runs inside the harness repo; analysis targets live here.
   workspace_relative: ".."
   # Commands installed as real slash commands.
+  # Bare names: commands/<name>.md installs as .claude/commands/harness-<name>.md,
+  # except `harness` itself, which installs bare as the entry point.
+  # Keep this list short. A user should need to remember two commands, not eight
+  # -- `/harness` detects the situation and does the right thing, and
+  # `/harness-checkpoint` saves progress. The other two are what `/harness`
+  # calls, and are useful on their own.
   install_commands:
-    - harness-load
-    - harness-checkpoint
-    - harness-init
+    - harness
+    - checkpoint
+    - init
+    - load

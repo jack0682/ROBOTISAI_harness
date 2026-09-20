@@ -160,6 +160,12 @@ cat <<EOF
 
 Done. The harness is in force in $TARGET.
 
-  Next:  open Claude Code in that workspace and run  /harness-init
-         to register the project overlay for it.
+  Next:  cd into that workspace, start Claude Code, and type
+
+             /harness
+
+         That is the only command you need to remember. It sets up the
+         signing identity, reads the workspace, and asks what you want to
+         build. Next time you open the workspace, type it again and it
+         picks up where you left off.
 EOF

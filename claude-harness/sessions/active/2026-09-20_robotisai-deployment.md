@@ -157,6 +157,35 @@ Next:
 3. Adopt it in one real workspace with `bootstrap.sh` — the first real
    adoption is the test that matters.
 
+### Follow-up: one entry point instead of eight
+
+The first pass shipped `bootstrap.sh` plus `/harness-init` and expected people
+to know which to run when. That is a command per situation, which means the
+user has to diagnose their own situation first — exactly the thing they are
+least able to do on day one.
+
+Replaced with **one** command, `/harness`, that detects the situation and acts:
+inside the template clone (offer to bootstrap into their workspace), installed
+but not set up (identity → workspace analysis → requirements), configured
+(recap the last session and continue), or `check` (diagnose the installation
+and prove a gate still bites). Setting up and resuming are genuinely different
+jobs, and it branches on that rather than re-explaining itself every session.
+
+`install_bridge.py` no longer hardcodes a generator per command: the bridge
+installs whatever `bridge.install_commands` names, from `commands/<name>.md`.
+Two of the old generators held a second copy of a body that also existed as a
+file, so the copies had already drifted. Four commands are installed —
+`/harness`, `/harness-checkpoint`, `/harness-init`, `/harness-load` — and a
+user needs the first two.
+
+The validator caught a real defect in this round: `commands/harness.md` cited
+`memory/open_questions.md`, which is a path inside a project overlay, not the
+harness root. Now written as `projects/<name>/memory/open_questions.md`.
+
+README rewritten in Korean, ordered as a team member actually meets it: clone,
+install into a workspace, type `/harness` — then what is enforced, how updates
+travel, and the five things people get stuck on.
+
 ### Open, not blocking
 
 - `bootstrap.sh` has been exercised against a scratch workspace but not against
