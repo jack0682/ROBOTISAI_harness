@@ -149,13 +149,33 @@ commit.gpgsign  true
 
 Next:
 
-1. Confirm the commit shows **Verified** on GitHub. If it does not, key
-   `D2278D81EB1F721E` is not registered on the account — add its public key
-   (`gpg --armor --export D2278D81EB1F721E`) under Settings → SSH and GPG keys.
-2. Consider marking the repository as a **GitHub template repository** in
-   Settings, so the clone step is one click for the team.
+1. **Settled 2026-09-20: every commit is `Unverified` on GitHub.** Checked via
+   the API across all six — `verified=false`, `reason=unknown_key` in each
+   case. The signatures themselves are good (`git log --show-signature` gives
+   `G`); the public key `D2278D81EB1F721E` is simply not on the account.
+
+   Registering it fixes all six **retroactively** — GitHub re-checks the key at
+   read time, so no rewrite or re-commit is needed. It could not be done from
+   here: the `gh` token carries `gist, read:org, repo, workflow` and adding a
+   key needs `admin:gpg_key`. The owner has to run:
+
+   ```sh
+   gh auth refresh -h github.com -s admin:gpg_key
+   gh api -X POST user/gpg_keys \
+     -f armored_public_key="$(gpg --armor --export D2278D81EB1F721E)"
+   ```
+
+2. **Done:** repository is a template (`is_template: true`), public, with a
+   description and 12 topics set via the API — it had neither before.
+
+   Worth watching: the *Use this template* button creates a **new GitHub
+   repository**, which is not the install flow the README documents (clone to a
+   temporary path, then `bootstrap.sh` into an existing project). A team member
+   who presses it gets an empty repository and no harness in their workspace.
+   Left as is; revisit if anyone actually trips on it.
+
 3. Adopt it in one real workspace with `bootstrap.sh` — the first real
-   adoption is the test that matters.
+   adoption is the test that matters, and it has not happened yet.
 
 ### Follow-up: one entry point instead of eight
 
