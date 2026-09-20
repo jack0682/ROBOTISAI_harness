@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="assets/social-card.png" alt="ROBOTIS AI Harness" width="820">
-
 # ROBOTIS AI Harness
 
 **로보티즈 AI 팀 전용 Claude Code 거버넌스 레이어**
