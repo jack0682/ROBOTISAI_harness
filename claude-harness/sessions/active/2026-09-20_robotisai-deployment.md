@@ -149,21 +149,40 @@ commit.gpgsign  true
 
 Next:
 
-1. **Settled 2026-09-20: every commit is `Unverified` on GitHub.** Checked via
-   the API across all six — `verified=false`, `reason=unknown_key` in each
-   case. The signatures themselves are good (`git log --show-signature` gives
-   `G`); the public key `D2278D81EB1F721E` is simply not on the account.
+1. **Signing moved from OpenPGP to SSH, and it is still `Unverified`.**
 
-   Registering it fixes all six **retroactively** — GitHub re-checks the key at
-   read time, so no rewrite or re-commit is needed. It could not be done from
-   here: the `gh` token carries `gist, read:org, repo, workflow` and adding a
-   key needs `admin:gpg_key`. The owner has to run:
+   First finding: no commit was ever verified — all of them `verified=false`,
+   `reason=unknown_key` via the API. The OpenPGP key `D2278D81EB1F721E` signs
+   correctly locally but is not on the account.
 
-   ```sh
-   gh auth refresh -h github.com -s admin:gpg_key
-   gh api -X POST user/gpg_keys \
-     -f armored_public_key="$(gpg --armor --export D2278D81EB1F721E)"
+   Second finding, which changed the approach: the key the owner supplied
+   (`SHA256:yzgoKg8+...`) is an **SSH key**, not a GPG one — it matches
+   `~/.ssh/id_jack0682.pub`, ED25519. GitHub shows SSH keys by SHA256
+   fingerprint and GPG keys by hex id; they are different things and easy to
+   confuse.
+
+   So the repository now signs with SSH (`gpg.format=ssh`,
+   `user.signingkey=~/.ssh/id_jack0682.pub`), and `.githooks/pre-commit`
+   accepts either format — requiring OpenPGP forced a second credential on
+   anyone who already has an SSH key and no GPG key. Local verification passes
+   (`%G?` = `G`) once `gpg.ssh.allowedSignersFile` exists.
+
+   **Third finding, established by pushing and asking the API rather than
+   assuming: GitHub still says `unknown_key`.** An SSH *authentication* key and
+   an SSH *signing* key are separate registrations, even for the same key
+   value. The public key has to be added again under
+   Settings → SSH and GPG keys → New SSH key with **Key type = Signing Key**:
+
    ```
+   ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKF/Oz5kzcczKf9bu/c70EB0RrwzN27qnde2pWbgkycO
+   ```
+
+   It could not be done from here — the `gh` token carries
+   `gist, read:org, repo, workflow`, and this needs `admin:ssh_signing_key`.
+
+   Once registered, **commits from `5f455ed` onward verify**; the ten before it
+   are OpenPGP-signed and stay `Unverified` unless history is rewritten, which
+   is a force-push and was not done unasked.
 
 2. **Done:** repository is a template (`is_template: true`), public, with a
    description and 12 topics set via the API — it had neither before.
