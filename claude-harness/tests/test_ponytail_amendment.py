@@ -73,6 +73,8 @@ class AmendmentPresenceTests(unittest.TestCase):
                 ("budget", "the reasoning that precedes the ladder is not budgeted"),
                 ("safety", "a safety path may never be deleted to save lines"),
                 ("unverified", "the harness's report is not prose to trim"),
+                ("cannot fail", "a check that cannot fail is not a check -- "
+                                "upstream's doctrine produced `assert ... or True`"),
         ):
             with self.subTest(clause=needle):
                 self.assertIn(needle, body, why)

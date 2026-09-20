@@ -127,6 +127,12 @@ correct**, never the thing correctness is traded for.
 If the shortest version is wrong on an edge case, it is not the lazy answer. It
 is a bug with fewer lines.
 
+*Measured, and not what was expected:* across three tasks the short answer was
+**not** wrong — the ladder reaches `calendar.isleap` and
+`atan2(sin d, cos d)` on its own. What the short answer actually lacks is a
+guard on input it did not produce. Hold this clause, but do not expect it to be
+the one that fires.
+
 ## 2. The thinking is not on the budget.
 
 The ladder runs **after** you understand the problem — upstream says this, and
@@ -155,6 +161,13 @@ Take the longer form without apology when it buys one of these:
 A clear twenty lines beat a clever six that someone decodes under pressure.
 `ponytail ultra` still may not delete a safety path.
 
+**A check that cannot fail is not a check.** Upstream requires one runnable
+check behind non-trivial logic, and on a real task that produced
+`assert isclose(...) or True` — which passes for `return 12345.0`. Before you
+call a check done, break the function on purpose and confirm the check goes
+red. An assertion that is always true is worse than none: it reports safety
+that does not exist.
+
 **This is not permission to pad.** Speculative abstraction, an interface with
 one implementation, scaffolding "for later", a dependency for what four lines
 do — still refused, exactly as upstream says. The allowance covers
@@ -170,3 +183,10 @@ trimmed.
 
 Cut the feature tour. Keep the ledger. An unverified claim stated briefly is
 still an unverified claim.
+
+*This is the clause that has paid so far.* On the heading task the answer ended
+with "unverified: behaviour on nan/inf". Running it showed `nan` propagates —
+and `inf` does **not**: `math.sin(inf)` raises `ValueError`. The guess was
+wrong. Because it was written down as unverified rather than asserted, a wrong
+guess stayed a flagged unknown instead of becoming a false claim in a
+controller's error path.

@@ -88,58 +88,64 @@ the way its documentation says it does.
 
 ---
 
-## Was the amendment worth it? — measured, 2026-09-20
+## Was the amendment worth it? — measured over three tasks, 2026-09-20
 
-An A/B, because asserting that a prompt amendment helps is exactly the kind of
-claim this harness refuses to take on faith. Two fresh agents, same model, same
-task, given **only** the doctrine text: one upstream, one upstream + amendment.
+Asserting that a prompt amendment helps is the kind of claim this harness
+refuses on faith, so it was measured. Two fresh agents per task, same model,
+given **only** the doctrine text: one upstream, one upstream + amendment. Every
+implementation was then executed against edge cases rather than read.
 
-Task: `wheel_delta(prev_ticks, curr_ticks, counts_per_rev)` for a 16-bit
-wrapping robot encoder — a case where the short answer is tempting.
+| task | upstream | amended | the real difference |
+|---|---|---|---|
+| **encoder unwrap** (16-bit wrap) | correct one-liner | correct, 8 lines | on 3 of 4 malformed readings upstream returns a **plausible number** (`-4364` ticks that never happened); amended raises |
+| **leap year** (deliberately trivial) | `calendar.isleap` | `calendar.isleap` | **+2 lines** — a type hint and a `__main__` guard. Identical behaviour on 11 years |
+| **heading error** (unnormalised radians) | `atan2(sin d, cos d)` — correct | **same algorithm** | upstream's self-check contained `assert ... or True`; amended ran its check and flagged `nan`/`inf` as unverified |
 
-**Upstream produced a correct one-liner.**
+### The hypothesis lost, 3 for 3
 
-```python
-return (curr_ticks - prev_ticks + 32768) % 65536 - 32768
-```
+The amendment was written on the belief that **short code is wrong code**. It
+is not. Under upstream's doctrine alone the model climbed to `calendar.isleap`
+and to `atan2(sin d, cos d)` — the correct idiom every time, including on
+unnormalised input and both wrap directions. Brevity never cost correctness in
+any of the three.
 
-**The amendment produced eight lines**: the same unwrap, plus range checks on
-both readings and on `counts_per_rev`, a docstring naming the half-revolution
-assumption, and a closing statement of what was *not* verified.
+Keeping a justification the evidence does not support would be the exact
+failure this harness exists to catch, so clause 1 now says so in the skill
+itself.
 
-| | upstream | amended |
-|---|---|---|
-| 7 well-formed cases (forward, reverse, both wrap directions, zero, ±32767) | **all correct** | **all correct** |
-| negative tick from a driver bug | returns `101` | raises `ValueError` |
-| tick above the register (70000) | returns `-4364` | raises `ValueError` |
-| `counts_per_rev = 0` | returns `100` | raises `ValueError` |
-| body length | 1 line | 8 lines |
+### What did earn its place
 
-**The result does not say what was expected, and that is the finding.** The
-hypothesis behind the amendment — *short code is wrong code* — was **not
-supported**: upstream's one-liner is correct on every well-formed input, including
-both wrap directions. Brevity did not cost correctness here.
+**Guarding input the function did not produce.** The encoder case is the one
+that matters: a short unwrap is mathematically right and still integrates
+`-4364` phantom ticks into odometry when the driver hands it a bad register
+read. No test of well-formed input shows this.
 
-What it did cost is behaviour on garbage. On three of four malformed readings
-upstream returns a **plausible number** — `-4364` ticks of movement that never
-happened — and odometry integrates it without noticing. The amended version
-stops. For a wheel encoder that difference is the whole point, and it is not
-visible in any test of well-formed input.
+**The ledger — the clearest result of the study.** The amended heading answer
+ended with *"unverified: behaviour on nan/inf"*. Running it: `nan` propagates,
+and `inf` does **not** behave as guessed — `math.sin(inf)` raises `ValueError`.
+**The guess was wrong, and writing it down as unverified is what kept it from
+becoming a false claim.** Upstream's answer made no such statement.
 
-One honest caveat on the other side: the amended version validates
-`counts_per_rev`, which does not enter the arithmetic. **Both** agents noticed
-the parameter is unused; upstream proposed deleting it, the amendment kept and
-guarded it. That is the amendment's failure mode — spending lines on a
-parameter that should arguably not exist — and clause 3's "not permission to
-pad" is the line holding it back.
+**A new clause, forced by the data.** Upstream's rule *"lazy code without its
+check is unfinished"* produced, on the heading task,
+`assert isclose(...) or True` — an assertion that passes for `return 12345.0`,
+confirmed by substituting exactly that. Clause 3 now requires breaking the
+function on purpose and watching the check go red.
 
-A third difference neither doctrine decides: at a movement of exactly half the
-register (32768) the two disagree in sign (`-32768` vs `+32768`). The input is
-genuinely direction-ambiguous, so neither is wrong. Worth knowing before either
-one integrates into a position estimate.
+### The amendment's own failure mode
 
-**Scope of this evidence.** One task, one sample per arm, one model. It shows
-the mechanism is real and names what it buys; it is not a measurement of how
-often it pays. Reproduce with `wheel_delta` or a task of your own before
-treating the effect size as known.
+On the encoder it validated `counts_per_rev`, which does not enter the
+arithmetic. Both agents noticed the parameter is unused; upstream proposed
+deleting it, the amendment kept and guarded it. That is padding, and clause 3's
+"not permission to pad" is the line holding it back. Worth watching — it is the
+cost side of this change.
 
+The feared cost did **not** otherwise appear: on a deliberately trivial task
+the amendment added two lines and no abstraction.
+
+### Scope of this evidence
+
+Three tasks, one sample per arm, one model, all in Python. It shows the
+mechanism is real, names what it buys, and refuted its own original
+justification. It does **not** measure how often any of it pays. Reproduce
+before treating the effect size as known.

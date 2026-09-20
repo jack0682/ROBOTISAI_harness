@@ -339,36 +339,47 @@ Bound in `scopes/coding/AGENTS.md` so it applies whether or not the skill is
 loaded, recorded in `UPSTREAM.md`, and surfaced in both READMEs. Frontmatter
 untouched, so the always-on budget is unchanged at 27,635 B.
 
-### Follow-up: the amendment was A/B tested, and the hypothesis lost
+### Follow-up: the amendment was A/B tested over three tasks, and revised
 
-Asserting that a prompt amendment helps is the kind of claim this harness
-refuses on faith, so it was measured. Two fresh agents, same model, same task,
-given only the doctrine: one upstream, one upstream + amendment. Task chosen so
-the short answer is tempting — `wheel_delta` on a 16-bit wrapping encoder.
+Round 1 tested one task and left the more important question open — whether
+the amendment causes the over-engineering it warns against. Round 2 added two
+tasks chosen to attack it from both sides: one deliberately trivial (padding
+risk) and one where naive wrapping is genuinely wrong. Two agents per task,
+same model, doctrine text only, every implementation then **executed** against
+edge cases rather than read.
 
-**The hypothesis behind the amendment — short code is wrong code — was not
-supported.** Upstream produced a correct one-liner, right on all seven
-well-formed cases including both wrap directions. Brevity cost nothing there.
+**The original hypothesis lost 3 for 3.** Short code was not wrong code. Under
+upstream's doctrine alone the model reached `calendar.isleap` and
+`atan2(sin d, cos d)` — the correct idiom every time, on unnormalised input and
+both wrap directions. Brevity never cost correctness in any of the three.
 
-What it did cost is behaviour on garbage. On three of four malformed readings
-upstream returns a *plausible* number — `-4364` ticks of movement that never
-happened — and odometry integrates it silently. The amended version raises.
-For a wheel encoder that is the whole difference, and no test of well-formed
-input would ever show it.
+The feared cost did not appear either: on the trivial task the amendment added
+**two lines** (a type hint and a `__main__` guard) and no abstraction.
 
-Recorded honestly in `UPSTREAM.md`, including the amendment's own failure mode:
-it guards `counts_per_rev`, which does not enter the arithmetic. Both agents
-noticed the parameter is unused; upstream proposed deleting it, the amendment
-kept and validated it. That is padding, and clause 3 is what holds it back.
-Also recorded: at exactly half a register the two disagree in sign, and the
-input is genuinely ambiguous, so neither is wrong.
+What did earn its place, with evidence:
 
-**Scope:** one task, one sample per arm, one model. It shows the mechanism is
-real and names what it buys. It does not measure how often it pays.
+- **Guarding input the function did not produce.** The encoder case: a short
+  unwrap is mathematically right and still feeds `-4364` phantom ticks into
+  odometry on a bad register read. No test of well-formed input shows it.
+- **The ledger — the clearest result.** The amended heading answer closed with
+  *"unverified: behaviour on nan/inf"*. Running it: `nan` propagates, and `inf`
+  does **not** behave as guessed — `math.sin(inf)` raises `ValueError`. **The
+  guess was wrong, and marking it unverified is what stopped it becoming a
+  false claim.**
+- **A clause the data forced.** Upstream's "lazy code without its check is
+  unfinished" produced `assert isclose(...) or True` — which passes for
+  `return 12345.0`, confirmed by substituting exactly that. Clause 3 now
+  requires breaking the function on purpose and watching the check go red.
 
-`tests/test_ponytail_amendment.py` (8 tests) pins the amendment's four clauses,
-the `---` boundary that keeps upstream diffable, the scope binding and the MIT
-notice — so a future re-vendor cannot drop it silently. Suite now 164.
+Clauses 1, 3 and 4 were rewritten in the skill to say what the measurements
+show, including that clause 1 is **not** expected to be the one that fires.
+Keeping a justification the evidence contradicts is the failure this harness
+exists to catch. The amendment's own failure mode is recorded too: on the
+encoder it validated a parameter that does not enter the arithmetic.
+
+`UPSTREAM.md` carries the full table and the scope caveat — three tasks, one
+sample per arm, one model, all Python. It shows the mechanism is real and names
+what it buys; it does not measure how often it pays.
 
 ### Open, not blocking
 
