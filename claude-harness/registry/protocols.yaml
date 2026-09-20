@@ -1,0 +1,60 @@
+# Copyright 2026 ROBOTIS AI
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author: Jaehong Oh <jaehongoh1554@gmail.com>
+
+# Index of universal protocols. Read-only reference (these ship with the harness).
+protocols:
+  - name: planning
+    path: protocols/planning.md
+    status: active
+  - name: answering
+    path: protocols/answering.md
+    status: active
+  - name: coding
+    path: protocols/coding.md
+    status: active
+  - name: debugging
+    path: protocols/debugging.md
+    status: active
+  - name: research
+    path: protocols/research.md
+    status: active
+  - name: web_search
+    path: protocols/web_search.md
+    status: active
+  - name: file_search
+    path: protocols/file_search.md
+    status: active
+  - name: file_management
+    path: protocols/file_management.md
+    status: active
+  - name: review
+    path: protocols/review.md
+    status: active
+  - name: writing
+    path: protocols/writing.md
+    status: active
+  - name: long_task
+    path: protocols/long_task.md
+    status: active
+  - name: long_loop
+    path: protocols/long_loop.md
+    status: active
+  - name: validation
+    path: protocols/validation.md
+    status: active
+  - name: commit_policy
+    path: protocols/commit_policy.md
+    status: active

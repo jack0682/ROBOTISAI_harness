@@ -1,0 +1,67 @@
+# Copyright 2026 ROBOTIS AI
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author: Jaehong Oh <jaehongoh1554@gmail.com>
+
+# Index of cognitive operations. Read-only reference (these ship with the harness).
+# A mode is domain-independent: input → operation → fixed output. See modes/README.md.
+modes:
+  - name: think
+    path: modes/think.md
+    loop_stage: Thought
+    status: active
+  - name: define
+    path: modes/define.md
+    loop_stage: Definition
+    status: active
+  - name: math_lock
+    path: modes/math_lock.md
+    loop_stage: Math/Consistency
+    status: active
+  - name: verify
+    path: modes/verify.md
+    loop_stage: Claim
+    status: active
+  - name: counter
+    path: modes/counter.md
+    loop_stage: Counterexample
+    status: active
+  - name: execute
+    path: modes/execute.md
+    loop_stage: Execution/Artifact
+    status: active
+  - name: research
+    path: modes/research.md
+    loop_stage: feeds Claim/Definition
+    status: active
+  - name: paper
+    path: modes/paper.md
+    loop_stage: Artifact critique
+    status: active
+  - name: prompt
+    path: modes/prompt.md
+    loop_stage: Execution handoff
+    status: active
+  - name: memory
+    path: modes/memory.md
+    loop_stage: Distillation
+    status: active
+  - name: audit
+    path: modes/audit.md
+    loop_stage: Revision
+    status: active
+  - name: layer
+    path: modes/layer.md
+    loop_stage: cross-cutting
+    status: active

@@ -1,0 +1,15 @@
+{
+  "name": "robotisai",
+  "owner": {
+    "name": "ROBOTIS AI",
+    "url": "https://github.com/jack0682/ROBOTISAI_harness"
+  },
+  "description": "The ROBOTIS AI team's research operating system, distributed as a Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "robotisai-harness",
+      "source": "./claude-harness",
+      "version": "0.5.0"
+    }
+  ]
+}

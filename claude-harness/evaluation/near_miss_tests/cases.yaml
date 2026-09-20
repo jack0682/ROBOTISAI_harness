@@ -1,0 +1,81 @@
+# Copyright 2026 ROBOTIS AI
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author: Jaehong Oh <jaehongoh1554@gmail.com>
+
+# near_miss_tests — prompts that LOOK like they'd trigger a target but SHOULD NOT.
+#
+# Run by READING (evaluation/README.md): decide what ROUTING.md + descriptions would
+# select; a false fire means the trigger is too greedy — tighten the description/
+# routing. The highest-signal cases are the ones caught in the wild; record them here
+# so the drift can't come back.
+#
+# INTEGRITY-checked by evaluation/check_routing_tests.py: `should_not` must name a
+# REAL, ACTIVE mode/scope/skill (the negative target must exist to be meaningful).
+# `expect_instead` is free-text guidance and is NOT validated as a name.
+#
+# Fields: prompt, should_not (mode/scope/skill name), expect_instead (free text), why.
+
+cases:
+  - prompt: "이 함수 이름 좀 더 명확하게 바꿔줘"
+    should_not: math_lock
+    expect_instead: "coding (styles/naming.md) — it mentions 함수 but is a rename task"
+    why: "surface math/code word without any claim to verify"
+
+  - prompt: "이 수식 LaTeX으로 예쁘게 렌더만 해줘"
+    should_not: math_lock
+    expect_instead: "writing (formatting) — math is present but there is no claim to check"
+    why: "formatting, not a formalism-holds verification"
+
+  - prompt: "오늘 한 거 그냥 한 줄로 요약만 해줘"
+    should_not: memory
+    expect_instead: "a plain summary; persist nothing"
+    why: "a summary is not a distillation-to-persist"
+
+  - prompt: "이 에러 로그 무슨 뜻이야?"
+    should_not: prompt
+    expect_instead: "coding / debugging — 'prompt'-adjacent words but it is debugging"
+    why: "keyword overlap with prompt-authoring, but the task is diagnosis"
+
+  - prompt: "이 논문 뭐에 대한 건지 한 문단으로 알려줘"
+    should_not: paper
+    expect_instead: "a brief explanation (research-lite); not a reviewer critique"
+    why: "explainer, not a hostile-reviewer critique"
+
+  - prompt: "arxiv에서 이 논문 PDF 하나만 받아줘"
+    should_not: research
+    expect_instead: "the arxiv skill (a fetch), not the full field-terrain research mode"
+    expect_skill: arxiv
+    why: "a single fetch is not a novelty/terrain map"
+
+  - prompt: "이 코드 그냥 돌려서 결과만 보여줘"
+    should_not: audit
+    expect_instead: "run it (execute-lite); no completion-audit ceremony needed"
+    why: "a quick run is not a done-vs-claimed audit"
+
+  - prompt: "무슨 스킬들 있는지 목록만 보여줘"
+    should_not: skill-creator
+    expect_instead: "find-skills / just list from skills/INDEX.md"
+    expect_skill: find-skills
+    why: "listing skills is not authoring/modifying one"
+
+  - prompt: "이 아이디어 그냥 네 느낌으로 괜찮은지만 말해줘"
+    should_not: verify
+    expect_instead: "a quick opinion, clearly labeled as opinion — not a full evidence/verify pass"
+    why: "asks for a gut take, not a rigorous claim-strength verdict (still: no false certainty)"
+
+  - prompt: "회의록 좀 깔끔하게 정리해줘"
+    should_not: paper
+    expect_instead: "doc formatting (doc-coauthoring); not a paper-spine critique"
+    why: "document tidy-up is not academic-argument critique"

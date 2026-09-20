@@ -1,0 +1,200 @@
+{
+  "version": 3,
+  "skills": {
+    "hugging-face-datasets": {
+      "source": "huggingface/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/huggingface/skills.git",
+      "skillPath": "skills/hugging-face-datasets/SKILL.md",
+      "skillFolderHash": "fa8df92d2bf66556836f2acc145d3e1d71b324eb",
+      "installedAt": "2026-03-03T08:29:51.323Z",
+      "updatedAt": "2026-03-03T08:29:51.323Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "c2f31172b6f256272305a5e6e7228b258446899f",
+      "installedAt": "2026-03-03T08:29:54.736Z",
+      "updatedAt": "2026-03-03T08:29:54.736Z"
+    },
+    "hugging-face-cli": {
+      "source": "huggingface/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/huggingface/skills.git",
+      "skillPath": "skills/hugging-face-cli/SKILL.md",
+      "skillFolderHash": "43da0e4014b3a6a8fa2184e8ff8e09ccee4240e0",
+      "installedAt": "2026-03-03T08:30:15.596Z",
+      "updatedAt": "2026-03-03T08:30:15.596Z"
+    },
+    "pdf": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/pdf/SKILL.md",
+      "skillFolderHash": "6369f4649de69bd6857c9bc3b058a77206009238",
+      "pluginName": "document-skills",
+      "installedAt": "2026-03-03T08:41:26.491Z",
+      "updatedAt": "2026-03-03T08:41:26.491Z"
+    },
+    "pptx": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/pptx/SKILL.md",
+      "skillFolderHash": "10b3d70962e489867ddfee7da92f7da6b0eccc4f",
+      "pluginName": "document-skills",
+      "installedAt": "2026-03-03T08:41:39.831Z",
+      "updatedAt": "2026-03-03T08:41:39.831Z"
+    },
+    "xlsx": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/xlsx/SKILL.md",
+      "skillFolderHash": "f5fb1cdb7993b2feee8367e983e9d4d58d2eedd4",
+      "pluginName": "document-skills",
+      "installedAt": "2026-03-03T08:41:58.404Z",
+      "updatedAt": "2026-03-03T08:41:58.404Z"
+    },
+    "docx": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/docx/SKILL.md",
+      "skillFolderHash": "a0d216202f9793a78da44cf96aabe48f42e627ac",
+      "pluginName": "document-skills",
+      "installedAt": "2026-03-03T08:42:28.201Z",
+      "updatedAt": "2026-03-03T08:42:28.201Z"
+    },
+    "agent-browser": {
+      "source": "vercel-labs/agent-browser",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
+      "skillPath": "skills/agent-browser/SKILL.md",
+      "skillFolderHash": "88b7e785240d14ab80eb11abdd0cbd27b20055c6",
+      "pluginName": "agent-browser",
+      "installedAt": "2026-03-03T08:42:52.669Z",
+      "updatedAt": "2026-03-03T08:42:52.669Z"
+    },
+    "file-organizer": {
+      "source": "ComposioHQ/awesome-claude-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/ComposioHQ/awesome-claude-skills.git",
+      "skillPath": "file-organizer/SKILL.md",
+      "skillFolderHash": "c7ed3669de10cf3eac013320906e82187d69999b",
+      "installedAt": "2026-03-03T08:44:28.106Z",
+      "updatedAt": "2026-03-03T08:44:28.106Z"
+    },
+    "algorithmic-art": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/algorithmic-art/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    },
+    "brand-guidelines": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/brand-guidelines/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    },
+    "canvas-design": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/canvas-design/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    },
+    "doc-coauthoring": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/doc-coauthoring/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    },
+    "internal-comms": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/internal-comms/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    },
+    "mcp-builder": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/mcp-builder/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    },
+    "slack-gif-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/slack-gif-creator/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    },
+    "theme-factory": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/theme-factory/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    },
+    "webapp-testing": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/webapp-testing/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    },
+    "web-artifacts-builder": {
+      "source": "anthropics/skills",
+      "sourceType": "marketplace",
+      "pluginName": "anthropic-agent-skills",
+      "skillPath": "skills/web-artifacts-builder/SKILL.md",
+      "installedAt": "2026-03-03T09:00:00.000Z",
+      "updatedAt": "2026-03-03T09:00:00.000Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "cline",
+    "codex",
+    "cursor",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode"
+  ]
+}
